@@ -1,0 +1,8 @@
+POST {{host_api}}/api/v1/member
+Content-Type: application/json
+
+{
+  "email": "dfsdfs",
+  "password": "sdf",
+  "name": "sdfs"
+}
