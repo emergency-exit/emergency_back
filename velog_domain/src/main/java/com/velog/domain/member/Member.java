@@ -1,6 +1,6 @@
-package com.velog.velog_domain.domain.member;
+package com.velog.domain.member;
 
-import com.velog.velog_domain.domain.BaseTimeEntity;
+import com.velog.domain.BaseTimeEntity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

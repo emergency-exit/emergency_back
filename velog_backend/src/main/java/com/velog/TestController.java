@@ -1,4 +1,4 @@
-package com.velog.velog_backend;
+package com.velog;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;

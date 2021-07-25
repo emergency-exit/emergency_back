@@ -1,4 +1,4 @@
-package com.velog.velog_backend;
+package com.velog;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

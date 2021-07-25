@@ -1,8 +1,8 @@
-package com.velog.velog_backend.service.member;
+package com.velog.service.member;
 
-import com.velog.velog_backend.dto.member.request.CreateMemberRequest;
-import com.velog.velog_domain.domain.member.Member;
-import com.velog.velog_domain.domain.member.MemberRepository;
+import com.velog.dto.member.request.CreateMemberRequest;
+import com.velog.domain.member.Member;
+import com.velog.domain.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

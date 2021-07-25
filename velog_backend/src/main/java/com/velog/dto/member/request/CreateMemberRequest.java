@@ -1,6 +1,6 @@
-package com.velog.velog_backend.dto.member.request;
+package com.velog.dto.member.request;
 
-import com.velog.velog_domain.domain.member.Member;
+import com.velog.domain.member.Member;
 import lombok.Getter;
 
 @Getter

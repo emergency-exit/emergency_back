@@ -1,4 +1,4 @@
-package com.velog.velog_domain.domain;
+package com.velog.domain;
 
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;

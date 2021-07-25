@@ -1,8 +1,8 @@
-package com.velog.velog_backend.controller.member;
+package com.velog.controller.member;
 
-import com.velog.velog_backend.dto.member.request.CreateMemberRequest;
-import com.velog.velog_backend.service.member.MemberService;
-import com.velog.velog_domain.domain.member.Member;
+import com.velog.dto.member.request.CreateMemberRequest;
+import com.velog.service.member.MemberService;
+import com.velog.domain.member.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
