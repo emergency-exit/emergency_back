@@ -1,0 +1,3 @@
+rootProject.name = 'potato-velog-sunjo'
+include 'velog_backend'
+
