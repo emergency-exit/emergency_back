@@ -11,10 +11,10 @@ public class CreateMemberRequest {
     private String name;
     private String memberImage;
 
-    public Member toEntity() {
+    public Member toEntity(String passwordEncoded) {
         return Member.builder()
                 .email(email)
-                .password(password)
+                .password(passwordEncoded)
                 .name(name)
                 .memberImage(memberImage)
                 .build();

@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'com.ewerk.gradle.plugins.querydsl'
 }
 
 group = 'com.velog'
@@ -13,22 +14,36 @@ repositories {
 dependencies {
     implementation 'com.querydsl:querydsl-jpa'
     implementation "com.querydsl:querydsl-core"
+    implementation 'com.querydsl:querydsl-apt'
+
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    testImplementation 'org.springframework.security:spring-security-test'
 }
 
 test {
     useJUnitPlatform()
 }
 
-def queryDslDir = 'src/main/generated'
+def querydslSrcDir ='src/main/generated'
+
+querydsl {
+    library ="com.querydsl:querydsl-apt"
+    jpa =true
+    querydslSourcesDir = querydslSrcDir
+}
+
+compileQuerydsl{
+    options.annotationProcessorPath = configurations.querydsl
+}
 
 sourceSets {
-    main.java.srcDirs += [queryDslDir]
+    main {
+        java {
+            srcDirs = ['src/main/java', querydslSrcDir]
+        }
+    }
 }
 
-tasks.withType(JavaCompile) {
-    options.annotationProcessorGeneratedSourcesDirectory = file(queryDslDir)
-}
-
-clean.doLast {
-    file(queryDslDir).deleteDir()
+configurations {
+    querydsl.extendsFrom compileClasspath
 }

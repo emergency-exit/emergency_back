@@ -33,3 +33,7 @@ out/
 /nbdist/
 /.nb-gradle/
 
+application-jwt.yml
+generated/
+
+

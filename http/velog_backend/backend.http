@@ -1,8 +1,28 @@
-POST {{host_api}}/api/v1/member
+### 회원가입
+POST {{host_api}}/signup
 Content-Type: application/json
 
 {
-  "email": "dfsdfs",
-  "password": "sdf",
-  "name": "sdfs"
+  "email": "tnswh2023@naver.com",
+  "password": "1234",
+  "name": "sunjo"
 }
+
+### 로그인
+POST {{host_api}}/login
+Content-Type: application/json
+
+{
+  "email": "tnswh2023@naver.com",
+  "password": "1234"
+}
+> {%
+client.global.set('AUTH', response.body)
+client.log(client.global.get('AUTH'));
+ %}
+
+
+###
+GET {{host_api}}/api/v1
+Content-Type: application/json
+Authorization: {{AUTH}}
