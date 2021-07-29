@@ -2,11 +2,10 @@ package com.velog.config.security;
 
 import com.velog.config.exception.NotFoundException;
 import com.velog.domain.member.Member;
-import com.velog.domain.member.MemberRepository;
+import com.velog.domain.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor

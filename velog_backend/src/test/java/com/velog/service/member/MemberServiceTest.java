@@ -3,7 +3,7 @@ package com.velog.service.member;
 import com.velog.config.exception.NotFoundException;
 import com.velog.config.exception.ValidationException;
 import com.velog.domain.member.Member;
-import com.velog.domain.member.MemberRepository;
+import com.velog.domain.member.repository.MemberRepository;
 import com.velog.dto.member.request.CreateMemberRequest;
 import com.velog.dto.member.request.LoginRequest;
 import org.junit.jupiter.api.AfterEach;

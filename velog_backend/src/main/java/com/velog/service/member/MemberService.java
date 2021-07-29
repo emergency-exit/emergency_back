@@ -3,15 +3,12 @@ package com.velog.service.member;
 import com.velog.config.jwt.JwtTokenProvider;
 import com.velog.dto.member.request.CreateMemberRequest;
 import com.velog.domain.member.Member;
-import com.velog.domain.member.MemberRepository;
+import com.velog.domain.member.repository.MemberRepository;
 import com.velog.dto.member.request.LoginRequest;
-import javassist.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import javax.xml.bind.ValidationException;
 
 @Service
 @RequiredArgsConstructor
