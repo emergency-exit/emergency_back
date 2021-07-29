@@ -22,14 +22,14 @@ public class MemberService {
     private final MemberRepository memberRepository;
 
     @Transactional
-    public Member createMember(CreateMemberRequest request) throws ValidationException {
+    public Member createMember(CreateMemberRequest request) {
         MemberServiceUtils.validateEmail(memberRepository, request.getEmail());
         String passwordEncoded = passwordEncoder.encode(request.getPassword());
         return memberRepository.save(request.toEntity(passwordEncoded));
     }
 
     @Transactional
-    public String login(LoginRequest request) throws NotFoundException {
+    public String login(LoginRequest request) {
         Member member = MemberServiceUtils.findMemberByEmail(memberRepository, request.getEmail());
         MemberServiceUtils.validatePassword(passwordEncoder, request.getPassword(), member.getPassword());
         return jwtTokenProvider.createToken(member.getEmail());
