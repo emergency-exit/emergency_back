@@ -19,10 +19,10 @@ public class MemberService {
     private final MemberRepository memberRepository;
 
     @Transactional
-    public Member createMember(CreateMemberRequest request) {
+    public void createMember(CreateMemberRequest request) {
         MemberServiceUtils.validateEmail(memberRepository, request.getEmail());
         String passwordEncoded = passwordEncoder.encode(request.getPassword());
-        return memberRepository.save(request.toEntity(passwordEncoded));
+        memberRepository.save(request.toEntity(passwordEncoded));
     }
 
     @Transactional

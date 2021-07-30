@@ -19,7 +19,7 @@ import java.util.Date;
 @Component
 public class JwtTokenProvider {
 
-    @Value("${spring.jwt.secret}")
+    @Value("${jwt.secret}")
     private String SECRET_KEY;
 
     private final UserDetailsService userDetailsService;
