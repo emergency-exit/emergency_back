@@ -1,6 +1,8 @@
 package com.velog.dto.member.request;
 
+import com.velog.domain.member.Email;
 import com.velog.domain.member.Member;
+import com.velog.domain.member.Password;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -24,8 +26,8 @@ public class CreateMemberRequest {
 
     public Member toEntity(String passwordEncoded) {
         return Member.builder()
-                .email(email)
-                .password(passwordEncoded)
+                .email(Email.of(email))
+                .password(Password.of(passwordEncoded))
                 .name(name)
                 .memberImage(memberImage)
                 .build();

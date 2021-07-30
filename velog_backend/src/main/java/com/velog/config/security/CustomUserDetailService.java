@@ -1,6 +1,6 @@
 package com.velog.config.security;
 
-import com.velog.config.exception.NotFoundException;
+import com.velog.exception.NotFoundException;
 import com.velog.domain.member.Member;
 import com.velog.domain.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;

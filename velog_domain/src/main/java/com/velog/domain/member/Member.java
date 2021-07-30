@@ -16,11 +16,11 @@ public class Member extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, length = 50)
-    private String email;
+    @Embedded
+    private Email email;
 
-    @Column(nullable = false, length = 100)
-    private String password;
+    @Embedded
+    private Password password;
 
     @Column(nullable = false, length = 50)
     private String name;
@@ -28,7 +28,7 @@ public class Member extends BaseTimeEntity {
     private String memberImage;
 
     @Builder
-    public Member(String email, String password, String name, String memberImage) {
+    public Member(Email email, Password password, String name, String memberImage) {
         this.email = email;
         this.password = password;
         this.name = name;

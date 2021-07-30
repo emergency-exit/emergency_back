@@ -4,7 +4,7 @@ Content-Type: application/json
 
 {
   "email": "tnswh2023@naver.com",
-  "password": "1234",
+  "password": "tnswh2023@",
   "name": "sunjo"
 }
 
@@ -14,7 +14,7 @@ Content-Type: application/json
 
 {
   "email": "tnswh2023@naver.com",
-  "password": "1234"
+  "password": "tnswh2023@"
 }
 > {%
 client.global.set('AUTH', response.body.data)

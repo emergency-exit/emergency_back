@@ -1,9 +1,9 @@
 package com.velog.config.exception.controllerAdvice;
 
-import com.velog.config.exception.ConflictException;
-import com.velog.config.exception.JwtException;
-import com.velog.config.exception.NotFoundException;
-import com.velog.config.exception.ValidationException;
+import com.velog.exception.ConflictException;
+import com.velog.exception.JwtException;
+import com.velog.exception.NotFoundException;
+import com.velog.exception.ValidationException;
 import com.velog.controller.ApiResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ExceptionHandler;

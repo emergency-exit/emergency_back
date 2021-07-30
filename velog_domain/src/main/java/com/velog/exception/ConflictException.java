@@ -1,4 +1,4 @@
-package com.velog.config.exception;
+package com.velog.exception;
 
 public class ConflictException extends CustomException {
 

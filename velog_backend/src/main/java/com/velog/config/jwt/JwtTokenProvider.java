@@ -3,7 +3,6 @@ package com.velog.config.jwt;
 import io.jsonwebtoken.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -19,9 +18,7 @@ import java.util.Date;
 @Component
 public class JwtTokenProvider {
 
-    @Value("${jwt.secret}")
-    private String SECRET_KEY;
-
+    private final JwtTokenComponent jwtTokenComponent;
     private final UserDetailsService userDetailsService;
 
     public String createToken(String subject) {
@@ -35,19 +32,19 @@ public class JwtTokenProvider {
                 .setClaims(claims)
                 .setIssuedAt(now)
                 .setExpiration(validity)
-                .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
+                .signWith(SignatureAlgorithm.HS256, jwtTokenComponent.getSecret())
                 .compact();
     }
 
     //토큰에서 값 추출
     public String getSubject(String token) {
-        return Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody().getSubject();
+        return Jwts.parser().setSigningKey(jwtTokenComponent.getSecret()).parseClaimsJws(token).getBody().getSubject();
     }
 
     //유효한 토큰인지 확인
     public boolean validateToken(String token) {
         try {
-            Jws<Claims> claimsJws = Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token);
+            Jws<Claims> claimsJws = Jwts.parser().setSigningKey(jwtTokenComponent.getSecret()).parseClaimsJws(token);
             return !claimsJws.getBody().getExpiration().before(new Date());
         } catch (JwtException | IllegalStateException exception) {
             return false;

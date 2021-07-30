@@ -1,6 +1,7 @@
 package com.velog.service.member;
 
 import com.velog.config.jwt.JwtTokenProvider;
+import com.velog.domain.member.Password;
 import com.velog.dto.member.request.CreateMemberRequest;
 import com.velog.domain.member.Member;
 import com.velog.domain.member.repository.MemberRepository;
@@ -21,15 +22,16 @@ public class MemberService {
     @Transactional
     public void createMember(CreateMemberRequest request) {
         MemberServiceUtils.validateEmail(memberRepository, request.getEmail());
-        String passwordEncoded = passwordEncoder.encode(request.getPassword());
+        Password password = Password.validationPassword(request.getPassword());
+        String passwordEncoded = passwordEncoder.encode(password.getPassword());
         memberRepository.save(request.toEntity(passwordEncoded));
     }
 
     @Transactional
     public String login(LoginRequest request) {
         Member member = MemberServiceUtils.findMemberByEmail(memberRepository, request.getEmail());
-        MemberServiceUtils.validatePassword(passwordEncoder, request.getPassword(), member.getPassword());
-        return jwtTokenProvider.createToken(member.getEmail());
+        MemberServiceUtils.validatePassword(passwordEncoder, request.getPassword(), member.getPassword().getPassword());
+        return jwtTokenProvider.createToken(member.getEmail().getEmail());
     }
 
 }

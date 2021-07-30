@@ -18,7 +18,6 @@ public class MemberController {
 
     private final MemberService memberService;
 
-    // TODO: 2021-07-29 이메일(  _@_)  과 비밀번호 조건(6자리 이상 특수문자 1개 ?) 주기
     @PostMapping("/signup")
     public ApiResponse<String> createMember(@RequestBody CreateMemberRequest request) {
         memberService.createMember(request);
