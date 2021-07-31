@@ -24,6 +24,7 @@ jobs:
         env:
           JWT_SECRET: ${{secrets.JWT_SECRET}}
           JWT_SECRET_PATH: velog_backend/src/main/resources/application-jwt.yml
+        run: echo -e "JWT_SECRET"
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
