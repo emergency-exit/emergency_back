@@ -6,14 +6,19 @@ import com.velog.domain.member.Password;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotBlank;
+
 @Getter
 @NoArgsConstructor
 public class CreateMemberRequest {
 
+    @NotBlank
     private String email;
 
+    @NotBlank
     private String password;
 
+    @NotBlank
     private String name;
     private String memberImage;
 

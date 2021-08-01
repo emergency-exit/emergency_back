@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 @RestController
 @RequiredArgsConstructor
 public class MemberController {
@@ -19,13 +21,13 @@ public class MemberController {
     private final MemberService memberService;
 
     @PostMapping("/signup")
-    public ApiResponse<String> createMember(@RequestBody CreateMemberRequest request) {
+    public ApiResponse<String> createMember(@Valid @RequestBody CreateMemberRequest request) {
         memberService.createMember(request);
         return ApiResponse.success("ok");
     }
 
     @PostMapping("/login")
-    public ApiResponse<String> login(@RequestBody LoginRequest request) {
+    public ApiResponse<String> login(@Valid @RequestBody LoginRequest request) {
         return ApiResponse.success(memberService.login(request));
     }
 
