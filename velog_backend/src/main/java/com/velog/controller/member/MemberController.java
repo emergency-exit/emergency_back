@@ -4,13 +4,13 @@ import com.velog.config.security.PrincipalDetails;
 import com.velog.controller.ApiResponse;
 import com.velog.dto.member.request.CreateMemberRequest;
 import com.velog.dto.member.request.LoginRequest;
+import com.velog.dto.member.request.UpdateMemberRequest;
+import com.velog.dto.member.response.MyInfoResponse;
 import com.velog.service.member.MemberService;
+import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -31,9 +31,14 @@ public class MemberController {
         return ApiResponse.success(memberService.login(request));
     }
 
-    @GetMapping("/api/v1")
-    public String getMyInfo(@AuthenticationPrincipal PrincipalDetails principalDetails) {
-        return principalDetails.getMember().getId().toString();
+    @GetMapping("/api/v1/myInfo")
+    public ApiResponse<MyInfoResponse> getMyInfo(@AuthenticationPrincipal PrincipalDetails principalDetails) {
+        return ApiResponse.success(MyInfoResponse.of(principalDetails.getMember()));
+    }
+
+    @PutMapping("/api/v1/myInfo/update")
+    public ApiResponse<MyInfoResponse> updateMyInfo(@Valid UpdateMemberRequest request, @AuthenticationPrincipal PrincipalDetails principalDetails) {
+        return ApiResponse.success(memberService.updateMember(request, principalDetails.getMember().getEmail().getEmail()));
     }
 
 }

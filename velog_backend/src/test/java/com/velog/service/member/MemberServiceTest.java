@@ -2,6 +2,7 @@ package com.velog.service.member;
 
 import com.velog.domain.member.Email;
 import com.velog.domain.member.Password;
+import com.velog.dto.member.request.UpdateMemberRequest;
 import com.velog.exception.NotFoundException;
 import com.velog.exception.ValidationException;
 import com.velog.domain.member.Member;
@@ -53,31 +54,25 @@ public class MemberServiceTest {
         assertThat(memberList.get(0).getEmail().getEmail()).isEqualTo(email);
     }
 
-//    @Test
-//    void 로그인_하면_토큰이_생성된다() {
-//        // given
-//        Member member = Member.builder().email("tnswh2023@gmail.com")
-//                .name("tnswh")
-//                .password(passwordEncoder.encode("1234"))
-//                .build();
-//        memberRepository.save(member);
-//
-//        LoginRequest request = new LoginRequest("tnswh2023@gmail.com", "1234");
-//
-//        // when
-//        String token = memberService.login(request);
-//
-//        // then
-//        assertThat(token).startsWith("ey");
-//    }
+    @Test
+    void 로그인_하면_토큰이_생성된다() {
+        // given
+        Member member = memberCreate();
+        memberRepository.save(member);
+
+        LoginRequest request = new LoginRequest("tnswh2023@gmail.com", "tnswh2023@");
+
+        // when
+        String token = memberService.login(request);
+
+        // then
+        assertThat(token).startsWith("ey");
+    }
 
     @Test
     void 로그인_이메일정보가_틀릴경우_예외발생() {
         // given
-        Member member = Member.builder().email(Email.of("tnswh2023@gmail.com"))
-                .name("tnswh")
-                .password(Password.of("tnswh2023@"))
-                .build();
+        Member member = memberCreate();
         memberRepository.save(member);
 
         LoginRequest request = new LoginRequest("tnswh2023@gmail.co", "tnswh2023@");
@@ -91,10 +86,7 @@ public class MemberServiceTest {
     @Test
     void 로그인_비밀번호가_틀릴경우_예외발생() {
         // given
-        Member member = Member.builder().email(Email.of("tnswh2023@gmail.com"))
-                .name("tnswh")
-                .password(Password.of(passwordEncoder.encode(Password.of("tnswh2023@").getPassword())))
-                .build();
+        Member member = memberCreate();
         memberRepository.save(member);
 
         LoginRequest request = new LoginRequest("tnswh2023@gmail.com", "tnswh202@");
@@ -103,6 +95,29 @@ public class MemberServiceTest {
         assertThatThrownBy(
                 () -> memberService.login(request)
         ).isInstanceOf(ValidationException.class);
+    }
+
+    @Test
+    void 유저_정보_변경() {
+        //given
+        Member member = memberCreate();
+        memberRepository.save(member);
+        UpdateMemberRequest request = new UpdateMemberRequest("name", "velogname", "description");
+
+        //when
+        memberService.updateMember(request, member.getEmail().getEmail());
+
+        //then
+        List<Member> memberList = memberRepository.findAll();
+        assertThat(memberList).hasSize(1);
+        assertThat(memberList.get(0).getDescription()).isEqualTo(request.getDescription());
+    }
+
+    private Member memberCreate() {
+        return Member.builder().email(Email.of("tnswh2023@gmail.com"))
+                .name("tnswh")
+                .password(Password.of(passwordEncoder.encode(Password.of("tnswh2023@").getPassword())))
+                .build();
     }
 
 }

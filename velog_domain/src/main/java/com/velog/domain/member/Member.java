@@ -6,10 +6,16 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 @Getter
 @NoArgsConstructor
+@Table(
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = {"email"})
+        }
+)
 public class Member extends BaseTimeEntity {
 
     @Id
@@ -27,12 +33,23 @@ public class Member extends BaseTimeEntity {
 
     private String memberImage;
 
+    private String velogName;
+
+    private String description;
+
     @Builder
-    public Member(Email email, Password password, String name, String memberImage) {
+    public Member(Email email, Password password, String name, String memberImage, String velogName, String description) {
         this.email = email;
         this.password = password;
         this.name = name;
         this.memberImage = memberImage;
+        this.velogName = velogName;
+        this.description = description;
     }
 
+    public void updateInfo(String description, String name, String velogName) {
+        this.description = description;
+        this.name = name;
+        this.velogName = velogName;
+    }
 }
