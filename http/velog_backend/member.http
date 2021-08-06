@@ -22,7 +22,18 @@ client.log(client.global.get('AUTH'));
  %}
 
 
-###
+### 내 정보 불러오기
 GET {{host_api}}/api/v1/myInfo
 Content-Type: application/json
 Authorization: {{AUTH}}
+
+### 내 정보 수정하기
+PUT {{host_api}}/api/v1/myInfo/update
+Content-Type: application/json
+Authorization: {{AUTH}}
+
+{
+  "name": "name",
+  "velogName": "velogName",
+  "description": "description"
+}

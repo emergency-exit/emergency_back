@@ -10,6 +10,7 @@ public class BoardRequest {
     @Getter
     @NoArgsConstructor
     public static class CreateSeries {
+
         private String seriesName;
 
         public CreateSeries(String seriesName) {

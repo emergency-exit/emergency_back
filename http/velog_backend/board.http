@@ -1,0 +1,7 @@
+POST {{host_api}}/api/v1/series
+Content-Type: application/json
+Authorization: {{AUTH}}
+
+{
+  "seriesName": "하하"
+}

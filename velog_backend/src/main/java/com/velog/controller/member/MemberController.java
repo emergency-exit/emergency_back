@@ -37,7 +37,7 @@ public class MemberController {
     }
 
     @PutMapping("/api/v1/myInfo/update")
-    public ApiResponse<MyInfoResponse> updateMyInfo(@Valid UpdateMemberRequest request, @AuthenticationPrincipal PrincipalDetails principalDetails) {
+    public ApiResponse<MyInfoResponse> updateMyInfo(@Valid @RequestBody UpdateMemberRequest request, @AuthenticationPrincipal PrincipalDetails principalDetails) {
         return ApiResponse.success(memberService.updateMember(request, principalDetails.getMember().getEmail().getEmail()));
     }
 
