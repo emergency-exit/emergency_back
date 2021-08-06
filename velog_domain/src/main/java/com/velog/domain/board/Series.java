@@ -1,6 +1,7 @@
 package com.velog.domain.board;
 
 import com.velog.domain.BaseTimeEntity;
+import com.velog.domain.member.Member;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -17,13 +18,20 @@ public class Series extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private Long memberId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id", nullable = false)
+    private Member member;
 
     @Column(nullable = false)
     private String seriesName;
 
-    @OneToMany(mappedBy = "series", cascade = CascadeType.ALL, orphanRemoval = true)
-    private final List<Board> boardList = new ArrayList<>();
+    public Series(Member member, String seriesName) {
+        this.member = member;
+        this.seriesName = seriesName;
+    }
+
+    public static Series of(Member member, String seriesName) {
+        return new Series(member, seriesName);
+    }
 
 }

@@ -2,6 +2,7 @@ package com.velog.service.member;
 
 import com.velog.domain.member.Email;
 import com.velog.domain.member.Password;
+import com.velog.domain.testObject.MemberCreator;
 import com.velog.dto.member.request.UpdateMemberRequest;
 import com.velog.exception.NotFoundException;
 import com.velog.exception.ValidationException;
@@ -57,7 +58,10 @@ public class MemberServiceTest {
     @Test
     void 로그인_하면_토큰이_생성된다() {
         // given
-        Member member = memberCreate();
+        Member member = Member.builder().email(Email.of("tnswh2023@gmail.com"))
+                .name("tnswh")
+                .password(Password.of(passwordEncoder.encode(Password.of("tnswh2023@").getPassword())))
+                .build();
         memberRepository.save(member);
 
         LoginRequest request = new LoginRequest("tnswh2023@gmail.com", "tnswh2023@");
@@ -100,7 +104,7 @@ public class MemberServiceTest {
     @Test
     void 유저_정보_변경() {
         //given
-        Member member = memberCreate();
+        Member member = MemberCreator.create();
         memberRepository.save(member);
         UpdateMemberRequest request = new UpdateMemberRequest("name", "velogname", "description");
 

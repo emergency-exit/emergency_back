@@ -1,12 +1,15 @@
 package com.velog.domain.member;
 
 import com.velog.domain.BaseTimeEntity;
+import com.velog.domain.board.Series;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -37,6 +40,9 @@ public class Member extends BaseTimeEntity {
 
     private String description;
 
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    private final List<Series> seriesList = new ArrayList<>();
+
     @Builder
     public Member(Email email, Password password, String name, String memberImage, String velogName, String description) {
         this.email = email;
@@ -52,4 +58,11 @@ public class Member extends BaseTimeEntity {
         this.name = name;
         this.velogName = velogName;
     }
+
+    public Series addSeries(String seriesName) {
+        Series series = Series.of(this, seriesName);
+        this.seriesList.add(series);
+        return series;
+    }
+
 }

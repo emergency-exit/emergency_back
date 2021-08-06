@@ -17,12 +17,10 @@ public class Board extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "series_id")
-    private Series series;
-
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<BoardLike> boardLikeList = new ArrayList<>();
+
+    private Long seriesId;
 
     @Column(nullable = false, length = 50)
     private String title;
@@ -37,13 +35,16 @@ public class Board extends BaseTimeEntity {
 
     private int likeCount;
 
-    public Board(Series series, String title, String content, Long memberId, Boolean isPrivate) {
-        this.series = series;
+    private String boardThumbnailUrl;
+
+    public Board(Long seriesId, String title, String content, Long memberId, Boolean isPrivate, String boardThumbnailUrl) {
+        this.seriesId = seriesId;
         this.title = title;
         this.content = content;
         this.memberId = memberId;
         this.isPrivate = isPrivate;
         this.likeCount = 0;
+        this.boardThumbnailUrl = boardThumbnailUrl;
     }
 
 }
