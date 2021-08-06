@@ -1,6 +1,7 @@
 package com.velog.domain.board;
 
 import com.velog.domain.BaseTimeEntity;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -37,6 +38,7 @@ public class Board extends BaseTimeEntity {
 
     private String boardThumbnailUrl;
 
+    @Builder
     public Board(Long seriesId, String title, String content, Long memberId, Boolean isPrivate, String boardThumbnailUrl) {
         this.seriesId = seriesId;
         this.title = title;
