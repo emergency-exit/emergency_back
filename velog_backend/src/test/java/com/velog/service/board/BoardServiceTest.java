@@ -88,6 +88,8 @@ public class BoardServiceTest {
     @Test
     void 최신_게시글을_불러온다1() {
         // given
+        List<Board> boardList2 = boardRepository.findAll();
+        System.out.println("boardList2 = " + boardList2);
         Board board1 = BoardCreator.create("title1");
         Board board2 = BoardCreator.create("title2");
         Board board3 = BoardCreator.create("title3");
@@ -97,9 +99,11 @@ public class BoardServiceTest {
         boardRepository.saveAll(Arrays.asList(board1, board2, board3, board4, board5));
 
         // when
-        List<Board> boardList = boardService.retrieveBoard(5L, 2, BoardPeriod.LATEST);
+        List<Board> boardList = boardService.retrieveBoard(board5.getId(), 2, BoardPeriod.LATEST);
 
         // then
+        List<Board> boardList1 = boardRepository.findAll();
+        System.out.println("boardList1 = " + boardList1);
         assertThat(boardList).hasSize(2);
         assertThat(boardList.get(0).getTitle()).isEqualTo(board4.getTitle());
         assertThat(boardList.get(1).getTitle()).isEqualTo(board3.getTitle());
@@ -118,11 +122,20 @@ public class BoardServiceTest {
         boardRepository.saveAll(Arrays.asList(board1, board2, board3, board4, board5));
 
         // when
-        List<Board> boardList = boardService.retrieveBoard(2L, 2, BoardPeriod.LATEST);
+        List<Board> boardList = boardService.retrieveBoard(board2.getId(), 2, BoardPeriod.LATEST);
 
         // then
         assertThat(boardList).hasSize(1);
         assertThat(boardList.get(0).getTitle()).isEqualTo(board1.getTitle());
+    }
+
+    @Test
+    void 게시물이_없을경우_빈배열_반환한다() {
+        // when
+        List<Board> boardList = boardService.retrieveBoard(0L, 2, BoardPeriod.LATEST);
+
+        // then
+        assertThat(boardList).isEmpty();
     }
 
 }
