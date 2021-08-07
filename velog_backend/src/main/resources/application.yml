@@ -1,7 +1,10 @@
 server:
   port: 8080
 spring:
-  profiles:
-    include:
-      - domain
-      - jwt
+  config:
+    activate:
+      on-profile: local
+    ### application-aaa를 사용할 필요가 없어짐
+    import:
+      - application-domain.yml
+      - jwt.yml
