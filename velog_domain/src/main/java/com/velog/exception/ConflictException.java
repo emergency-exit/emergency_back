@@ -1,13 +1,11 @@
 package com.velog.exception;
 
+import com.velog.exception.errorCode.ErrorCode;
+
 public class ConflictException extends CustomException {
 
     public ConflictException(String message) {
-        super(message);
-    }
-
-    public ConflictException(String message, String description) {
-        super(message, description);
+        super(message, ErrorCode.CONFLICT_EXCEPTION);
     }
 
 }

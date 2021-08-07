@@ -9,6 +9,7 @@ import com.velog.domain.board.BoardPeriod;
 import com.velog.dto.board.request.BoardRequest;
 import com.velog.dto.board.response.BoardInfoResponse;
 import com.velog.dto.board.response.SeriesResponse;
+import com.velog.service.member.MemberServiceUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,7 +25,7 @@ public class BoardService {
 
     @Transactional
     public SeriesResponse createSeries(BoardRequest.CreateSeries request, String email) {
-        Member member = memberRepository.findByEmail(email);
+        Member member = MemberServiceUtils.findMemberByEmail(memberRepository, email);
         Series series = member.addSeries(request.getSeriesName());
         return SeriesResponse.of(series.getId(), series.getSeriesName());
     }

@@ -1,5 +1,6 @@
 package com.velog.service.member;
 
+import com.velog.exception.ConflictException;
 import com.velog.exception.NotFoundException;
 import com.velog.exception.ValidationException;
 import com.velog.domain.member.Member;
@@ -11,7 +12,7 @@ public class MemberServiceUtils {
     public static void validateEmail(MemberRepository memberRepository, String email) {
         Member member = memberRepository.findByEmail(email);
         if (member != null) {
-            throw new NotFoundException(String.format("%s는 이미 존재하는 회원입니다.", email));
+            throw new ConflictException(String.format("%s는 이미 존재하는 회원입니다.", email));
         }
     }
 

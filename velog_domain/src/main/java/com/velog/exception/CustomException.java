@@ -1,19 +1,16 @@
 package com.velog.exception;
 
+import com.velog.exception.errorCode.ErrorCode;
 import lombok.Getter;
 
 @Getter
 public class CustomException extends RuntimeException {
 
-    private String description;
+    private final ErrorCode errorCode;
 
-    public CustomException(String message) {
+    public CustomException(String message, ErrorCode errorCode) {
         super(message);
-    }
-
-    public CustomException(String message, String description) {
-        super(message);
-        this.description = description;
+        this.errorCode = errorCode;
     }
 
 }
