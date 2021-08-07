@@ -5,3 +5,32 @@ Authorization: {{AUTH}}
 {
   "seriesName": "하하"
 }
+
+### 게시글 생성
+POST {{host_api}}/api/v1/board
+Content-Type: application/json
+Authorization: {{AUTH}}
+
+{
+  "seriesId": 1,
+  "title": "title",
+  "content": "content",
+  "memberId": 1,
+  "isPrivate": true,
+  "boardThumbnailUrl": "https://naver.com"
+}
+
+### 게시글 조회
+GET {{host_api}}/board/list?lastBoardId=3&size=2&period=LATEST
+
+### 게시글 조회 _ 오늘
+GET {{host_api}}/board/list?lastBoardId=6&size=1&period=TODAY
+
+### 게시글 조회 - 이번달
+GET {{host_api}}/board/list?lastBoardId=6&size=5&period=THIS_MONTH
+
+### 게시글 조회 - 이번 주
+GET {{host_api}}/board/list?lastBoardId=6&size=3&period=THIS_WEEK
+
+### 게시글 조회 - 이번년도
+GET {{host_api}}/board/list?lastBoardId=6&size=5&period=THIS_YEAR

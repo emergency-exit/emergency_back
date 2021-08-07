@@ -1,10 +1,11 @@
 package com.velog.dto.board.request;
 
 import com.velog.domain.board.Board;
-import lombok.AllArgsConstructor;
+import com.velog.domain.board.BoardPeriod;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -64,6 +65,17 @@ public class BoardRequest {
                     .boardThumbnailUrl(boardThumbnailUrl)
                     .build();
         }
+
+    }
+
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    public static class RetrieveBoardRequest {
+
+        private Long lastBoardId;
+        private int size;
+        private BoardPeriod period;
 
     }
 
