@@ -1,4 +1,4 @@
-package com.velog.domain.board;
+package com.velog.enumData;
 
 public enum BoardPeriod {
 

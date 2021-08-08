@@ -1,7 +1,7 @@
 package com.velog.dto.board.request;
 
 import com.velog.domain.board.Board;
-import com.velog.domain.board.BoardPeriod;
+import com.velog.enumData.BoardPeriod;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

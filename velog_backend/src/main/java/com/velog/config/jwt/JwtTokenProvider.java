@@ -1,5 +1,6 @@
 package com.velog.config.jwt;
 
+import com.velog.config.prefix.JwtTokenComponent;
 import io.jsonwebtoken.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

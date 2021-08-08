@@ -35,4 +35,4 @@ out/
 
 generated/
 jwt.yml
-
+credentials.yml

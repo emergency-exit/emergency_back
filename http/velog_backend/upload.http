@@ -1,0 +1,9 @@
+### file upload
+POST {{host_api}}/image/upload
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="file"; filename="cat.jpg"
+
+< C:/Users/sunjo/Desktop/cat.jpg
+--WebAppBoundary--

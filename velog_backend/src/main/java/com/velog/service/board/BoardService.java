@@ -5,7 +5,7 @@ import com.velog.domain.board.Series;
 import com.velog.domain.board.repository.BoardRepository;
 import com.velog.domain.member.Member;
 import com.velog.domain.member.repository.MemberRepository;
-import com.velog.domain.board.BoardPeriod;
+import com.velog.enumData.BoardPeriod;
 import com.velog.dto.board.request.BoardRequest;
 import com.velog.dto.board.response.BoardInfoResponse;
 import com.velog.dto.board.response.SeriesResponse;

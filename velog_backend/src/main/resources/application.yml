@@ -8,3 +8,5 @@ spring:
     import:
       - application-domain.yml
       - jwt.yml
+      - aws.yml
+      - credentials.yml

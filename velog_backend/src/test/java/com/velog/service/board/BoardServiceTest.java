@@ -1,7 +1,7 @@
 package com.velog.service.board;
 
 import com.velog.domain.board.Board;
-import com.velog.domain.board.BoardPeriod;
+import com.velog.enumData.BoardPeriod;
 import com.velog.domain.board.Series;
 import com.velog.domain.board.repository.BoardRepository;
 import com.velog.domain.board.repository.SeriesRepository;

@@ -2,7 +2,7 @@ package com.velog.domain.board.repository;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.velog.domain.board.Board;
-import com.velog.domain.board.BoardPeriod;
+import com.velog.enumData.BoardPeriod;
 import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDate;
