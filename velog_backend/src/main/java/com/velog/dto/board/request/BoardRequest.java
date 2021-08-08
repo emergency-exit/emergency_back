@@ -9,6 +9,8 @@ import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -32,7 +34,7 @@ public class BoardRequest {
 
         private Long seriesId;
 
-        @NotBlank
+        @NotBlank(message = "title을 넣어주세요")
         private String title;
 
         private String content;
@@ -40,19 +42,23 @@ public class BoardRequest {
         @NotNull
         private Long memberId;
 
-        @NotNull
+        @NotNull(message = "공개 유무를 넣어주세요")
         private Boolean isPrivate;
 
         private String boardThumbnailUrl;
 
+        @NotNull
+        private List<String> hashTagList = new ArrayList<>();
+
         @Builder(builderMethodName = "testBuilder")
-        public CreateBoard(Long seriesId, String title, String content, Long memberId, Boolean isPrivate, String boardThumbnailUrl) {
+        public CreateBoard(Long seriesId, String title, String content, Long memberId, Boolean isPrivate, String boardThumbnailUrl, List<String> hashTagList) {
             this.seriesId = seriesId;
             this.title = title;
             this.content = content;
             this.memberId = memberId;
             this.isPrivate = isPrivate;
             this.boardThumbnailUrl = boardThumbnailUrl;
+            this.hashTagList = hashTagList;
         }
 
         public Board toEntity(Long memberId) {

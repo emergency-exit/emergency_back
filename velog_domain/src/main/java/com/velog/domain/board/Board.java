@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Getter
@@ -20,6 +21,9 @@ public class Board extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<BoardLike> boardLikeList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
+    private final List<BoardHashTag> hashTagList = new ArrayList<>();
 
     private Long seriesId;
 
@@ -47,6 +51,11 @@ public class Board extends BaseTimeEntity {
         this.isPrivate = isPrivate;
         this.likeCount = 0;
         this.boardThumbnailUrl = boardThumbnailUrl;
+    }
+
+    public void addHashTag(List<String> hashTagList, Long memberId) {
+        List<BoardHashTag> boardHashTagList = hashTagList.stream().map(boardHashTag -> BoardHashTag.of(boardHashTag, memberId, this)).collect(Collectors.toList());
+        this.hashTagList.addAll(boardHashTagList);
     }
 
 }

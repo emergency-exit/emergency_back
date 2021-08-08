@@ -1,6 +1,8 @@
 package com.velog.service.board;
 
 import com.velog.domain.board.Board;
+import com.velog.domain.board.BoardHashTag;
+import com.velog.domain.board.repository.BoardHashTagRepository;
 import com.velog.enumData.BoardPeriod;
 import com.velog.domain.board.Series;
 import com.velog.domain.board.repository.BoardRepository;
@@ -18,6 +20,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -36,6 +40,9 @@ public class BoardServiceTest {
 
     @Autowired
     private BoardRepository boardRepository;
+
+    @Autowired
+    private BoardHashTagRepository boardHashTagRepository;
 
     @AfterEach
     void clean() {
@@ -73,6 +80,7 @@ public class BoardServiceTest {
                 .isPrivate(true)
                 .memberId(member.getId())
                 .seriesId(1L)
+                .hashTagList(Collections.emptyList())
                 .build();
 
         // when
@@ -82,6 +90,38 @@ public class BoardServiceTest {
         List<Board> boardList = boardRepository.findAll();
         assertThat(boardList).hasSize(1);
         TestUtils.assertBoard(boardList.get(0), request.getContent(), request.getTitle(), request.getBoardThumbnailUrl(), request.getIsPrivate(), request.getSeriesId());
+        List<BoardHashTag> boardHashTagList = boardHashTagRepository.findAll();
+        assertThat(boardHashTagList).isEmpty();
+    }
+
+    @Test
+    void 게시글을_생성한다_해쉬태그가_있을_경우() {
+        // given
+        Member member = MemberCreator.create();
+        memberRepository.save(member);
+
+        BoardRequest.CreateBoard request = BoardRequest.CreateBoard.testBuilder()
+                .title("title")
+                .content("content")
+                .boardThumbnailUrl("https://naver.com")
+                .isPrivate(true)
+                .memberId(member.getId())
+                .seriesId(1L)
+                .hashTagList(Arrays.asList("자바", "스트림"))
+                .build();
+
+        // when
+        boardService.createBoard(request, member.getId());
+
+        // then
+        List<Board> boardList = boardRepository.findAll();
+        List<BoardHashTag> boardHashTagList = boardHashTagRepository.findAll();
+        assertThat(boardList).hasSize(1);
+        TestUtils.assertBoard(boardList.get(0), request.getContent(), request.getTitle(), request.getBoardThumbnailUrl(), request.getIsPrivate(), request.getSeriesId());
+
+        assertThat(boardHashTagList).hasSize(2);
+        assertThat(boardHashTagList.get(0).getHashTag()).isEqualTo(request.getHashTagList().get(0));
+        assertThat(boardHashTagList.get(1).getHashTag()).isEqualTo(request.getHashTagList().get(1));
     }
 
     @DisplayName("최신 게시글을 불러온다. lastBoardId 5 size 2  게시글을 desc해서 마지막 게시글이 5이고 사이즈가 2이면 4,3 이 있다.")

@@ -39,7 +39,7 @@ public class BoardInfoResponse {
                 .boardId(board.getId())
                 .seriesId(board.getSeriesId())
                 .title(board.getTitle())
-                .content(board.getTitle())
+                .content(board.getContent())
                 .isPrivate(board.getIsPrivate())
                 .likeCount(board.getLikeCount())
                 .boardThumbnailUrl(board.getBoardThumbnailUrl())

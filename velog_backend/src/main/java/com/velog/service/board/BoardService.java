@@ -33,6 +33,7 @@ public class BoardService {
     @Transactional
     public BoardInfoResponse createBoard(BoardRequest.CreateBoard request, Long memberId) {
         Board board = boardRepository.save(request.toEntity(memberId));
+        board.addHashTag(request.getHashTagList(), memberId);
         return BoardInfoResponse.of(board);
     }
 

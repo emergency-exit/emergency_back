@@ -5,16 +5,17 @@ import com.velog.exception.ConflictException;
 import com.velog.exception.JwtException;
 import com.velog.exception.NotFoundException;
 import com.velog.exception.ValidationException;
+import com.velog.exception.errorCode.ErrorCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 @Slf4j
 @RestControllerAdvice
-public class ExceptionControllerAdvice extends ResponseEntityExceptionHandler {
+public class ExceptionControllerAdvice {
 
     @ExceptionHandler(NotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
@@ -44,5 +45,12 @@ public class ExceptionControllerAdvice extends ResponseEntityExceptionHandler {
         return ErrorResponse.error(e.getErrorCode(), e.getMessage());
     }
 
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    protected ErrorResponse handlerMethodArgumentNotValid(MethodArgumentNotValidException e) {
+        log.error(e.getMessage(), e);
+        log.error("e-----------------------" + e.getBindingResult());
+        return ErrorResponse.error(ErrorCode.VALIDATION_EXCEPTION, e.getBindingResult().getAllErrors().get(0).getDefaultMessage());
+    }
 
 }

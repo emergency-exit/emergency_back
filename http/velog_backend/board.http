@@ -17,7 +17,8 @@ Authorization: {{AUTH}}
   "content": "content",
   "memberId": 1,
   "isPrivate": true,
-  "boardThumbnailUrl": "https://naver.com"
+  "boardThumbnailUrl": "https://naver.com",
+  "hashTagList": ["자바", "스트림"]
 }
 
 ### 게시글 조회
