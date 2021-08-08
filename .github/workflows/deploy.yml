@@ -21,7 +21,6 @@ jobs:
 
       - name: Build with Gradle
         run: |
-          ./ gradlew --version
           ./ gradlew build
 
       - name: Upload S3
