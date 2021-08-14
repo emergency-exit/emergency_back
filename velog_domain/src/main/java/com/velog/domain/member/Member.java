@@ -41,6 +41,7 @@ public class Member extends BaseTimeEntity {
 
     private String description;
 
+    @Enumerated(EnumType.STRING)
     private ProviderType provider;
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)

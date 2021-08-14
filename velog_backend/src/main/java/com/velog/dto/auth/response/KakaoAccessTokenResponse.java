@@ -1,10 +1,13 @@
 package com.velog.dto.auth.response;
 
-import lombok.Getter;
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Getter
+@Data
 @NoArgsConstructor
+@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class KakaoAccessTokenResponse {
 
     private String accessToken;

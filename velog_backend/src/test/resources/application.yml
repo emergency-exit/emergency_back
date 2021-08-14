@@ -7,3 +7,10 @@ cloud:
       static: ap-northeast-2
     stack:
       auto: false
+
+kakao:
+  auth:
+    client_key: a
+    grant_type: a
+    url: a
+    user_info_url: a

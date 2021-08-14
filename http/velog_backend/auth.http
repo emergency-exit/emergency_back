@@ -1,0 +1,7 @@
+POST {{host_api}}/auth/kakao
+Content-Type: application/json
+
+{
+  "code": "tnoRpsL-HTfaPsKFGMOn1XiwOiXLGpjtPCKINgCIARjiXk3SvpXpsLDGQX0d-KaPprZs0go9dZwAAAF7RWaG-Q",
+  "redirectUri": "http://localhost:8080/auth/kakao/callback"
+}

@@ -5,7 +5,8 @@ Content-Type: application/json
 {
   "email": "tnswh2023@naver.com",
   "password": "tnswh2023@",
-  "name": "sunjo"
+  "name": "sunjo",
+  "provider": "LOCAL"
 }
 
 ### 로그인

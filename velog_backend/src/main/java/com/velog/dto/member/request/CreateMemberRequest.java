@@ -23,11 +23,14 @@ public class CreateMemberRequest {
     private String name;
     private String memberImage;
 
-    public CreateMemberRequest(String email, String password, String name, String memberImage) {
+    private ProviderType provider;
+
+    public CreateMemberRequest(String email, String password, String name, String memberImage, ProviderType provider) {
         this.email = email;
         this.password = password;
         this.name = name;
         this.memberImage = memberImage;
+        this.provider = provider;
     }
 
     public Member toEntity(String passwordEncoded) {

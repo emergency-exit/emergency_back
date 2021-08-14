@@ -7,7 +7,6 @@ import com.velog.dto.member.request.LoginRequest;
 import com.velog.dto.member.request.UpdateMemberRequest;
 import com.velog.dto.member.response.MyInfoResponse;
 import com.velog.service.member.MemberService;
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;

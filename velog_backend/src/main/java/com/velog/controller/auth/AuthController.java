@@ -7,6 +7,8 @@ import com.velog.service.auth.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequiredArgsConstructor
 public class AuthController {
@@ -20,7 +22,7 @@ public class AuthController {
     }
 
     @PostMapping("/auth/kakao")
-    public ApiResponse<KaKaoUserInfoResponse> kakaoAuthentication(@RequestBody AuthRequest request) {
+    public ApiResponse<KaKaoUserInfoResponse> kakaoAuthentication(@Valid @RequestBody AuthRequest request) {
         return ApiResponse.success(authService.kakaoAuthentication(request));
     }
 

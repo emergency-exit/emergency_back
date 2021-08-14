@@ -4,6 +4,7 @@ import com.velog.domain.member.Email;
 import com.velog.domain.member.Password;
 import com.velog.domain.testObject.MemberCreator;
 import com.velog.dto.member.request.UpdateMemberRequest;
+import com.velog.enumData.ProviderType;
 import com.velog.exception.NotFoundException;
 import com.velog.exception.ValidationException;
 import com.velog.domain.member.Member;
@@ -44,7 +45,7 @@ public class MemberServiceTest {
         String email = "tnswh2023@naver.com";
         String password = "tnswh2023@";
         String name = "tnswh";
-        CreateMemberRequest request = new CreateMemberRequest(email, password, name, null);
+        CreateMemberRequest request = new CreateMemberRequest(email, password, name, null, ProviderType.LOCAL);
 
         // when
         memberService.createMember(request);
