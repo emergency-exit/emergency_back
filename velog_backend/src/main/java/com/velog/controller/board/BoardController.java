@@ -44,6 +44,4 @@ public class BoardController {
         return ApiResponse.success(boardList.stream().map(BoardInfoResponse::of).collect(Collectors.toList()));
     }
 
-
-
 }

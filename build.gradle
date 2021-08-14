@@ -46,6 +46,9 @@ subprojects {
         implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
         implementation 'org.springframework.boot:spring-boot-starter-webflux'
 
+        // maria db
+        implementation group: 'org.mariadb.jdbc', name: 'mariadb-java-client', version: '2.4.1'
+
 
     }
 }
