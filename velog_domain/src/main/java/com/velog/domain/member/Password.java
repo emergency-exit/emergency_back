@@ -15,7 +15,6 @@ public class Password {
 
     private final static String exp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[~!@#$%^&*()+|=])[A-Za-z\\d~!@#$%^&*()+|=]{8,16}$";
 
-    @Column(nullable = false)
     private String password;
 
     public Password(String password) {

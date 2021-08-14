@@ -10,3 +10,4 @@ spring:
       - jwt.yml
       - aws.yml
       - credentials.yml
+      - auth.yml

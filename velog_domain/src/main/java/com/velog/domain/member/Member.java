@@ -2,6 +2,7 @@ package com.velog.domain.member;
 
 import com.velog.domain.BaseTimeEntity;
 import com.velog.domain.board.Series;
+import com.velog.enumData.ProviderType;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -40,17 +41,20 @@ public class Member extends BaseTimeEntity {
 
     private String description;
 
+    private ProviderType provider;
+
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<Series> seriesList = new ArrayList<>();
 
     @Builder
-    public Member(Email email, Password password, String name, String memberImage, String velogName, String description) {
+    public Member(Email email, Password password, String name, String memberImage, String velogName, String description, ProviderType provider) {
         this.email = email;
         this.password = password;
         this.name = name;
         this.memberImage = memberImage;
         this.velogName = velogName;
         this.description = description;
+        this.provider = provider;
     }
 
     public void updateInfo(String description, String name, String velogName) {
