@@ -2,6 +2,7 @@ package com.velog.domain.board;
 
 import com.velog.domain.BaseTimeEntity;
 import com.velog.exception.NotFoundException;
+import com.velog.exception.ValidationException;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,6 +10,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Entity
@@ -60,18 +62,26 @@ public class Board extends BaseTimeEntity {
     }
 
     public void boardAddLike(Long memberId) {
+        this.findBoardLikeByMemberId(memberId)
+                .ifPresent(boardLike -> {
+                    throw new ValidationException(String.format("%s이 이미 좋아요한 게시글 %s이 있습니다.", memberId, this.id));
+                });
         BoardLike boardLike = BoardLike.of(this, memberId);
         this.boardLikeList.add(boardLike);
         this.likeCount++;
     }
 
     public void boardUnLike(Long memberId) {
-        BoardLike boardLike = this.boardLikeList.stream()
-                .filter(like -> like.findMember(memberId))
-                .findFirst()
-                .orElseThrow(() -> new NotFoundException(String.format("%s가 좋아요한 게시글 %s가 없습니다.", memberId, this.id)));
+        BoardLike boardLike = this.findBoardLikeByMemberId(memberId)
+                .orElseThrow(() -> new NotFoundException(String.format("%s이 좋아요한 게시글 %s이 없습니다.", memberId, this.id)));
         this.boardLikeList.remove(boardLike);
         this.likeCount--;
+    }
+
+    public Optional<BoardLike> findBoardLikeByMemberId(Long memberId) {
+        return this.boardLikeList.stream()
+                .filter(like -> like.findMember(memberId))
+                .findFirst();
     }
 
 }

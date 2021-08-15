@@ -15,6 +15,7 @@ import com.velog.domain.testObject.BoardCreator;
 import com.velog.domain.testObject.MemberCreator;
 import com.velog.dto.board.request.BoardRequest;
 import com.velog.exception.NotFoundException;
+import com.velog.exception.ValidationException;
 import com.velog.service.TestUtils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
@@ -214,6 +215,20 @@ public class BoardServiceTest {
     }
 
     @Test
+    void 좋아요한_게시물이_이미_좋아요한_게시물일_경우_예외발생() {
+        // given
+        Board board = BoardCreator.create("title1");
+        boardRepository.save(board);
+
+        BoardLike boardLike = BoardLike.of(board, 1L);
+        boardLikeRepository.save(boardLike);
+
+        assertThatThrownBy(
+            () -> boardService.boardLike(board.getId(), 1L)
+        ).isInstanceOf(ValidationException.class);
+    }
+
+    @Test
     void 게시물_좋아요_취소한다() {
         // given
         Board board = BoardCreator.create("title1");
@@ -228,6 +243,14 @@ public class BoardServiceTest {
         // then
         List<BoardLike> boardLikeList = boardLikeRepository.findAll();
         assertThat(boardLikeList).isEmpty();
+    }
+
+    @Test
+    void 좋아요를_하지않은_게시물을_취소할_경우_예외발생() {
+        // when & then
+        assertThatThrownBy(
+            () -> boardService.boardUnLike(1L, 1L)
+        ).isInstanceOf(NotFoundException.class);
     }
 
 }
