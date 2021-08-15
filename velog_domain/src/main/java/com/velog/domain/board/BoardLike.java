@@ -21,4 +21,17 @@ public class BoardLike extends BaseTimeEntity {
 
     private Long memberId;
 
+    public BoardLike(Board board, Long memberId) {
+        this.board = board;
+        this.memberId = memberId;
+    }
+
+    public static BoardLike of(Board board, Long memberId) {
+        return new BoardLike(board, memberId);
+    }
+
+    public boolean findMember(Long memberId) {
+        return this.memberId.equals(memberId);
+    }
+
 }

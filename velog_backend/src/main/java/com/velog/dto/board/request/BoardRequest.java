@@ -85,4 +85,21 @@ public class BoardRequest {
 
     }
 
+    @Getter
+    @NoArgsConstructor
+    public static class GetBoardRequest {
+
+        @NotNull
+        private Long boardId;
+
+        public GetBoardRequest(Long boardId) {
+            this.boardId = boardId;
+        }
+
+        public static GetBoardRequest testInstance(Long boardId) {
+            return new GetBoardRequest(boardId);
+        }
+
+    }
+
 }

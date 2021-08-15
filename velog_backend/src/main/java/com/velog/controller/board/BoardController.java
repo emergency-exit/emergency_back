@@ -44,4 +44,18 @@ public class BoardController {
         return ApiResponse.success(boardList.stream().map(BoardInfoResponse::of).collect(Collectors.toList()));
     }
 
+    @ApiOperation(value = "게시글 좋아요", notes = "게시글 좋아요")
+    @PostMapping("/api/v1/board/like")
+    public ApiResponse<String> boardLike(@Valid @RequestBody BoardRequest.GetBoardRequest request, @AuthenticationPrincipal PrincipalDetails principalDetails) {
+        boardService.boardLike(request.getBoardId(), principalDetails.getMember().getId());
+        return ApiResponse.OK;
+    }
+
+    @ApiOperation(value = "게시글 좋아요 취소", notes = "게시글 좋아요 취소")
+    @PostMapping("/api/v1/board/unlike")
+    public ApiResponse<String> boardUnlike(@Valid @RequestBody BoardRequest.GetBoardRequest request, @AuthenticationPrincipal PrincipalDetails principalDetails) {
+        boardService.boardUnLike(request.getBoardId(), principalDetails.getMember().getId());
+        return ApiResponse.OK;
+    }
+
 }

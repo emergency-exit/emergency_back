@@ -2,7 +2,9 @@ package com.velog.service.board;
 
 import com.velog.domain.board.Board;
 import com.velog.domain.board.BoardHashTag;
+import com.velog.domain.board.BoardLike;
 import com.velog.domain.board.repository.BoardHashTagRepository;
+import com.velog.domain.board.repository.BoardLikeRepository;
 import com.velog.enumData.BoardPeriod;
 import com.velog.domain.board.Series;
 import com.velog.domain.board.repository.BoardRepository;
@@ -12,6 +14,7 @@ import com.velog.domain.member.repository.MemberRepository;
 import com.velog.domain.testObject.BoardCreator;
 import com.velog.domain.testObject.MemberCreator;
 import com.velog.dto.board.request.BoardRequest;
+import com.velog.exception.NotFoundException;
 import com.velog.service.TestUtils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
@@ -25,6 +28,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @SpringBootTest
 public class BoardServiceTest {
@@ -43,6 +47,9 @@ public class BoardServiceTest {
 
     @Autowired
     private BoardHashTagRepository boardHashTagRepository;
+
+    @Autowired
+    private BoardLikeRepository boardLikeRepository;
 
     @AfterEach
     void clean() {
@@ -176,6 +183,51 @@ public class BoardServiceTest {
 
         // then
         assertThat(boardList).isEmpty();
+    }
+
+    // TODO: 2021-08-15 createdDate 기준으로 오늘, 이번주, 이번달, 이번년도 게시글 가지고 오기 - test짜야함
+
+    @Test
+    void 게시물을_좋아요한다() {
+        // given
+        Board board = BoardCreator.create("title1");
+        boardRepository.save(board);
+
+        BoardRequest.GetBoardRequest request = BoardRequest.GetBoardRequest.testInstance(board.getId());
+
+        // when
+        boardService.boardLike(board.getId(), 1L);
+
+        // then
+        List<BoardLike> boardLikeList = boardLikeRepository.findAll();
+        List<Board> boardList = boardRepository.findAll();
+        assertThat(boardLikeList).hasSize(1);
+        assertThat(boardList.get(0).getLikeCount()).isEqualTo(1);
+    }
+
+    @Test
+    void 좋아요한_게시물이_존재하지_않는_게시물일_경우_예외발생() {
+        // when & then
+        assertThatThrownBy(
+            () -> boardService.boardLike(1L, 1L)
+        ).isInstanceOf(NotFoundException.class);
+    }
+
+    @Test
+    void 게시물_좋아요_취소한다() {
+        // given
+        Board board = BoardCreator.create("title1");
+        boardRepository.save(board);
+
+        BoardLike boardLike = BoardLike.of(board, 1L);
+        boardLikeRepository.save(boardLike);
+
+        // when
+        boardService.boardUnLike(board.getId(), 1L);
+
+        // then
+        List<BoardLike> boardLikeList = boardLikeRepository.findAll();
+        assertThat(boardLikeList).isEmpty();
     }
 
 }

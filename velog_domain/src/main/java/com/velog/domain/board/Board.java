@@ -1,6 +1,7 @@
 package com.velog.domain.board;
 
 import com.velog.domain.BaseTimeEntity;
+import com.velog.exception.NotFoundException;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -56,6 +57,21 @@ public class Board extends BaseTimeEntity {
     public void addHashTag(List<String> hashTagList, Long memberId) {
         List<BoardHashTag> boardHashTagList = hashTagList.stream().map(boardHashTag -> BoardHashTag.of(boardHashTag, memberId, this)).collect(Collectors.toList());
         this.hashTagList.addAll(boardHashTagList);
+    }
+
+    public void boardAddLike(Long memberId) {
+        BoardLike boardLike = BoardLike.of(this, memberId);
+        this.boardLikeList.add(boardLike);
+        this.likeCount++;
+    }
+
+    public void boardUnLike(Long memberId) {
+        BoardLike boardLike = this.boardLikeList.stream()
+                .filter(like -> like.findMember(memberId))
+                .findFirst()
+                .orElseThrow(() -> new NotFoundException(String.format("%s가 좋아요한 게시글 %s가 없습니다.", memberId, this.id)));
+        this.boardLikeList.remove(boardLike);
+        this.likeCount--;
     }
 
 }

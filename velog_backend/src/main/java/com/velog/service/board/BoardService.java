@@ -9,6 +9,7 @@ import com.velog.enumData.BoardPeriod;
 import com.velog.dto.board.request.BoardRequest;
 import com.velog.dto.board.response.BoardInfoResponse;
 import com.velog.dto.board.response.SeriesResponse;
+import com.velog.exception.NotFoundException;
 import com.velog.service.member.MemberServiceUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -40,6 +41,20 @@ public class BoardService {
     @Transactional(readOnly = true)
     public List<Board> retrieveBoard(Long lastBoardId, int size, BoardPeriod period) {
         return boardRepository.findAllBoardByOrderByIdDescAndTerm(lastBoardId, size, period);
+    }
+
+    @Transactional
+    public void boardLike(Long boardId, Long memberId) {
+        Board board = boardRepository.findBoardById(boardId)
+                .orElseThrow(() -> new NotFoundException(String.format("존재하지 않는 게시글 %s입니다.", boardId)));
+        board.boardAddLike(memberId);
+    }
+
+    @Transactional
+    public void boardUnLike(Long boardId, Long memberId) {
+        Board board = boardRepository.findBoardById(boardId)
+                .orElseThrow(() -> new NotFoundException(String.format("존재하지 않는 게시글 %s입니다.", boardId)));
+        board.boardUnLike(memberId);
     }
 
 }

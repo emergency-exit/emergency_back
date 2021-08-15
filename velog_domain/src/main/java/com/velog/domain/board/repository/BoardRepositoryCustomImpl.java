@@ -1,4 +1,5 @@
 package com.velog.domain.board.repository;
+
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.velog.domain.board.Board;
@@ -9,6 +10,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Optional;
 
 import static com.velog.domain.board.QBoard.board;
 
@@ -27,6 +29,15 @@ public class BoardRepositoryCustomImpl implements BoardRepositoryCustom {
                 .orderBy(board.id.desc())
                 .limit(size)
                 .fetch();
+    }
+
+    @Override
+    public Optional<Board> findBoardById(Long boardId) {
+        return Optional.ofNullable(queryFactory
+                .selectFrom(board)
+                .where(board.id.eq(boardId))
+                .fetchOne()
+        );
     }
 
     private BooleanExpression paginationByLastBoardId(Long lastBoardId) {
