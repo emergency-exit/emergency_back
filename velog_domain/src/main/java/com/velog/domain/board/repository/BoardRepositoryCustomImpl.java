@@ -1,8 +1,11 @@
 package com.velog.domain.board.repository;
 
+import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.velog.domain.board.Board;
+import com.velog.domain.member.QMember;
+import com.velog.dto.board.response.BoardRetrieveResponse;
 import com.velog.enumData.BoardPeriod;
 import lombok.RequiredArgsConstructor;
 
@@ -13,6 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.velog.domain.board.QBoard.board;
+import static com.velog.domain.member.QMember.member;
 
 @RequiredArgsConstructor
 public class BoardRepositoryCustomImpl implements BoardRepositoryCustom {
@@ -20,11 +24,24 @@ public class BoardRepositoryCustomImpl implements BoardRepositoryCustom {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public List<Board> findAllBoardByOrderByIdDescAndTerm(Long lastBoardId, int size, BoardPeriod period) {
-        return queryFactory.selectFrom(board)
+    public List<BoardRetrieveResponse> findAllBoardByOrderByIdDescAndTerm(Long lastBoardId, int size, BoardPeriod period) {
+        return queryFactory
+                .select(Projections.fields(BoardRetrieveResponse.class,
+                        board.id.as("boardId"),
+                        board.title.as("title"),
+                        board.content.as("content"),
+                        board.likeCount.as("likeCount"),
+                        board.boardThumbnailUrl.as("boardThumbnailUrl"),
+                        member.id.as("memberId"),
+                        member.name.as("name"),
+                        member.memberImage.as("memberImage")
+                        ))
+                .from(board)
+                .innerJoin(member).on(board.memberId.eq(member.id))
                 .where(
                         paginationByLastBoardId(lastBoardId),
-                        devideByPeriod(period)
+                        devideByPeriod(period),
+                        board.isPrivate.eq(false)
                 )
                 .orderBy(board.id.desc())
                 .limit(size)

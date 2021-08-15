@@ -7,13 +7,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class BoardCreator {
 
-    public static Board create(String title) {
+    public static Board create(String title, Long memberId) {
         return Board.builder()
                 .title(title)
                 .content("content")
-                .memberId(1L)
+                .memberId(memberId)
                 .seriesId(1L)
-                .isPrivate(true)
+                .isPrivate(false)
                 .build();
     }
 

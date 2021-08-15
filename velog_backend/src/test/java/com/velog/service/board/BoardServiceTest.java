@@ -5,6 +5,7 @@ import com.velog.domain.board.BoardHashTag;
 import com.velog.domain.board.BoardLike;
 import com.velog.domain.board.repository.BoardHashTagRepository;
 import com.velog.domain.board.repository.BoardLikeRepository;
+import com.velog.dto.board.response.BoardRetrieveResponse;
 import com.velog.enumData.BoardPeriod;
 import com.velog.domain.board.Series;
 import com.velog.domain.board.repository.BoardRepository;
@@ -24,7 +25,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -135,23 +135,21 @@ public class BoardServiceTest {
     @DisplayName("최신 게시글을 불러온다. lastBoardId 5 size 2  게시글을 desc해서 마지막 게시글이 5이고 사이즈가 2이면 4,3 이 있다.")
     @Test
     void 최신_게시글을_불러온다1() {
+        Member member = MemberCreator.create();
+        memberRepository.save(member);
         // given
-        List<Board> boardList2 = boardRepository.findAll();
-        System.out.println("boardList2 = " + boardList2);
-        Board board1 = BoardCreator.create("title1");
-        Board board2 = BoardCreator.create("title2");
-        Board board3 = BoardCreator.create("title3");
-        Board board4 = BoardCreator.create("title4");
-        Board board5 = BoardCreator.create("title5");
+        Board board1 = BoardCreator.create("title1", member.getId());
+        Board board2 = BoardCreator.create("title2", member.getId());
+        Board board3 = BoardCreator.create("title3", member.getId());
+        Board board4 = BoardCreator.create("title4", member.getId());
+        Board board5 = BoardCreator.create("title5", member.getId());
 
         boardRepository.saveAll(Arrays.asList(board1, board2, board3, board4, board5));
 
         // when
-        List<Board> boardList = boardService.retrieveBoard(board5.getId(), 2, BoardPeriod.LATEST);
+        List<BoardRetrieveResponse> boardList = boardService.retrieveBoard(board5.getId(), 2, BoardPeriod.LATEST);
 
         // then
-        List<Board> boardList1 = boardRepository.findAll();
-        System.out.println("boardList1 = " + boardList1);
         assertThat(boardList).hasSize(2);
         assertThat(boardList.get(0).getTitle()).isEqualTo(board4.getTitle());
         assertThat(boardList.get(1).getTitle()).isEqualTo(board3.getTitle());
@@ -160,17 +158,19 @@ public class BoardServiceTest {
     @DisplayName("최신 게시글을 불러온다. lastBoardId 2 size 2 게시글을 desc해서 마지막 게시글이 2이고 사이즈가 2인데 게시글이 하나남아서 1번 게시글만 있다")
     @Test
     void 최신_게시글을_불러온다2() {
+        Member member = MemberCreator.create();
+        memberRepository.save(member);
         // given
-        Board board1 = BoardCreator.create("title1");
-        Board board2 = BoardCreator.create("title2");
-        Board board3 = BoardCreator.create("title3");
-        Board board4 = BoardCreator.create("title4");
-        Board board5 = BoardCreator.create("title5");
+        Board board1 = BoardCreator.create("title1", member.getId());
+        Board board2 = BoardCreator.create("title2", member.getId());
+        Board board3 = BoardCreator.create("title3", member.getId());
+        Board board4 = BoardCreator.create("title4", member.getId());
+        Board board5 = BoardCreator.create("title5", member.getId());
 
         boardRepository.saveAll(Arrays.asList(board1, board2, board3, board4, board5));
 
         // when
-        List<Board> boardList = boardService.retrieveBoard(board2.getId(), 2, BoardPeriod.LATEST);
+        List<BoardRetrieveResponse> boardList = boardService.retrieveBoard(board2.getId(), 2, BoardPeriod.LATEST);
 
         // then
         assertThat(boardList).hasSize(1);
@@ -180,7 +180,7 @@ public class BoardServiceTest {
     @Test
     void 게시물이_없을경우_빈배열_반환한다() {
         // when
-        List<Board> boardList = boardService.retrieveBoard(0L, 2, BoardPeriod.LATEST);
+        List<BoardRetrieveResponse> boardList = boardService.retrieveBoard(0L, 2, BoardPeriod.LATEST);
 
         // then
         assertThat(boardList).isEmpty();
@@ -191,7 +191,7 @@ public class BoardServiceTest {
     @Test
     void 게시물을_좋아요한다() {
         // given
-        Board board = BoardCreator.create("title1");
+        Board board = BoardCreator.create("title1", 1L);
         boardRepository.save(board);
 
         BoardRequest.GetBoardRequest request = BoardRequest.GetBoardRequest.testInstance(board.getId());
@@ -217,7 +217,7 @@ public class BoardServiceTest {
     @Test
     void 좋아요한_게시물이_이미_좋아요한_게시물일_경우_예외발생() {
         // given
-        Board board = BoardCreator.create("title1");
+        Board board = BoardCreator.create("title1", 1L);
         boardRepository.save(board);
 
         BoardLike boardLike = BoardLike.of(board, 1L);
@@ -231,7 +231,7 @@ public class BoardServiceTest {
     @Test
     void 게시물_좋아요_취소한다() {
         // given
-        Board board = BoardCreator.create("title1");
+        Board board = BoardCreator.create("title1", 1L);
         boardRepository.save(board);
 
         BoardLike boardLike = BoardLike.of(board, 1L);
