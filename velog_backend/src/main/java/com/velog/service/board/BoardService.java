@@ -5,6 +5,7 @@ import com.velog.domain.board.Series;
 import com.velog.domain.board.repository.BoardRepository;
 import com.velog.domain.member.Member;
 import com.velog.domain.member.repository.MemberRepository;
+import com.velog.dto.board.response.BoardInfoWithHashTagResponse;
 import com.velog.dto.board.response.BoardRetrieveResponse;
 import com.velog.enumData.BoardPeriod;
 import com.velog.dto.board.request.BoardRequest;
@@ -56,6 +57,16 @@ public class BoardService {
         Board board = boardRepository.findBoardById(boardId)
                 .orElseThrow(() -> new NotFoundException(String.format("존재하지 않는 게시글 %s입니다.", boardId)));
         board.boardUnLike(memberId);
+    }
+
+    @Transactional
+    public BoardInfoWithHashTagResponse getBoard(Long boardId) {
+        boardRepository.findBoardById(boardId)
+                .orElseThrow(() -> new NotFoundException(String.format("존재하지 않는 게시글 %s입니다.", boardId)));
+        Board boardWithHashTag = boardRepository.getBoardWithHashTag(boardId);
+        Member member = memberRepository.findMemberById(boardWithHashTag.getMemberId())
+                .orElseThrow(() -> new NotFoundException(String.format("%s는 존재하지 않는 유저입니다.", boardWithHashTag.getMemberId())));
+        return BoardInfoWithHashTagResponse.of(boardWithHashTag, member);
     }
 
 }

@@ -13,4 +13,6 @@ public interface BoardRepositoryCustom {
 
     Optional<Board> findBoardById(Long boardId);
 
+    Board getBoardWithHashTag(Long boardId);
+
 }

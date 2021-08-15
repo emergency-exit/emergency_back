@@ -16,7 +16,7 @@ Authorization: {{AUTH}}
   "title": "title",
   "content": "content",
   "memberId": 1,
-  "isPrivate": true,
+  "isPrivate": false,
   "boardThumbnailUrl": "https://naver.com",
   "hashTagList": ["자바", "스트림"]
 }
@@ -44,3 +44,15 @@ Authorization: {{AUTH}}
 {
   "boardId": 1
 }
+
+### 좋아요 취소
+POST {{host_api}}/api/v1/board/unlike
+Content-Type: application/json
+Authorization: {{AUTH}}
+
+{
+  "boardId": 1
+}
+
+### 게시글 상세보기 - 해쉬태그까지 가져온다
+GET {{host_api}}/board/detail/2

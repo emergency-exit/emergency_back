@@ -5,20 +5,17 @@ import com.velog.controller.ApiResponse;
 import com.velog.domain.board.Board;
 import com.velog.dto.board.request.BoardRequest;
 import com.velog.dto.board.response.BoardInfoResponse;
+import com.velog.dto.board.response.BoardInfoWithHashTagResponse;
 import com.velog.dto.board.response.BoardRetrieveResponse;
 import com.velog.dto.board.response.SeriesResponse;
 import com.velog.service.board.BoardService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -43,6 +40,12 @@ public class BoardController {
     public ApiResponse<List<BoardRetrieveResponse>> retrieveBoard(BoardRequest.RetrieveBoardRequest request) {
         List<BoardRetrieveResponse> boardList = boardService.retrieveBoard(request.getLastBoardId(), request.getSize(), request.getPeriod());
         return ApiResponse.success(boardList);
+    }
+
+    @ApiOperation(value = "게시글 상세보기", notes = "게시글 상세보기")
+    @GetMapping("/board/detail/{boardId}")
+    public ApiResponse<BoardInfoWithHashTagResponse> getBoard(@PathVariable Long boardId) {
+        return ApiResponse.success(boardService.getBoard(boardId));
     }
 
     @ApiOperation(value = "게시글 좋아요", notes = "게시글 좋아요")

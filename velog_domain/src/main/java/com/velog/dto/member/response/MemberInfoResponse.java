@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class MyInfoResponse {
+public class MemberInfoResponse {
 
     private String email;
     private String name;
@@ -14,7 +14,7 @@ public class MyInfoResponse {
     private String velogName;
     private String description;
 
-    public MyInfoResponse(String email, String name, String memberImage, String velogName, String description) {
+    public MemberInfoResponse(String email, String name, String memberImage, String velogName, String description) {
         this.email = email;
         this.name = name;
         this.memberImage = memberImage;
@@ -22,8 +22,8 @@ public class MyInfoResponse {
         this.description = description;
     }
 
-    public static MyInfoResponse of(Member member) {
-        return new MyInfoResponse(member.getEmail().getEmail(), member.getName(), member.getMemberImage(), member.getVelogName(), member.getDescription());
+    public static MemberInfoResponse of(Member member) {
+        return new MemberInfoResponse(member.getEmail().getEmail(), member.getName(), member.getMemberImage(), member.getVelogName(), member.getDescription());
     }
 
 }

@@ -1,14 +1,13 @@
 package com.velog.service.member;
 
 import com.velog.config.jwt.JwtTokenProvider;
-import com.velog.domain.member.Email;
 import com.velog.domain.member.Password;
 import com.velog.dto.member.request.CreateMemberRequest;
 import com.velog.domain.member.Member;
 import com.velog.domain.member.repository.MemberRepository;
 import com.velog.dto.member.request.LoginRequest;
 import com.velog.dto.member.request.UpdateMemberRequest;
-import com.velog.dto.member.response.MyInfoResponse;
+import com.velog.dto.member.response.MemberInfoResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -38,10 +37,10 @@ public class MemberService {
     }
 
     @Transactional
-    public MyInfoResponse updateMember(UpdateMemberRequest request, String email) {
+    public MemberInfoResponse updateMember(UpdateMemberRequest request, String email) {
         Member member = MemberServiceUtils.findMemberByEmail(memberRepository, email);
         member.updateInfo(request.getDescription(), request.getName(), request.getVelogName());
-        return MyInfoResponse.of(member);
+        return MemberInfoResponse.of(member);
     }
 
 }

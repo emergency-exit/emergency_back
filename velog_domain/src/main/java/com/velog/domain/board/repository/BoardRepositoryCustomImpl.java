@@ -4,6 +4,7 @@ import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.velog.domain.board.Board;
+import com.velog.domain.board.QBoardHashTag;
 import com.velog.domain.member.QMember;
 import com.velog.dto.board.response.BoardRetrieveResponse;
 import com.velog.enumData.BoardPeriod;
@@ -16,6 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.velog.domain.board.QBoard.board;
+import static com.velog.domain.board.QBoardHashTag.boardHashTag;
 import static com.velog.domain.member.QMember.member;
 
 @RequiredArgsConstructor
@@ -35,7 +37,7 @@ public class BoardRepositoryCustomImpl implements BoardRepositoryCustom {
                         member.id.as("memberId"),
                         member.name.as("name"),
                         member.memberImage.as("memberImage")
-                        ))
+                ))
                 .from(board)
                 .innerJoin(member).on(board.memberId.eq(member.id))
                 .where(
@@ -52,9 +54,23 @@ public class BoardRepositoryCustomImpl implements BoardRepositoryCustom {
     public Optional<Board> findBoardById(Long boardId) {
         return Optional.ofNullable(queryFactory
                 .selectFrom(board)
-                .where(board.id.eq(boardId))
+                .where(
+                        board.id.eq(boardId),
+                        board.isPrivate.eq(false)
+                )
                 .fetchOne()
         );
+    }
+
+    @Override
+    public Board getBoardWithHashTag(Long boardId) {
+        return queryFactory.selectFrom(board)
+                .leftJoin(board.hashTagList, boardHashTag).fetchJoin()
+                .where(
+                        board.id.eq(boardId),
+                        board.isPrivate.eq(false)
+                )
+                .fetchOne();
     }
 
     private BooleanExpression paginationByLastBoardId(Long lastBoardId) {
