@@ -3,7 +3,7 @@ server:
 spring:
   config:
     activate:
-      on-profile: local
+      on-profile: local, prod
     ### application-aaa를 사용할 필요가 없어짐
     import:
       - application-domain.yml
@@ -11,3 +11,4 @@ spring:
       - aws.yml
       - credentials.yml
       - auth.yml
+      - rds.yml
