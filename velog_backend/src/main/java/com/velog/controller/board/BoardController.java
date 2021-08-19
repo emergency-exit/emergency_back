@@ -2,7 +2,6 @@ package com.velog.controller.board;
 
 import com.velog.config.security.PrincipalDetails;
 import com.velog.controller.ApiResponse;
-import com.velog.domain.board.Board;
 import com.velog.dto.board.request.BoardRequest;
 import com.velog.dto.board.response.BoardInfoResponse;
 import com.velog.dto.board.response.BoardInfoWithHashTagResponse;
