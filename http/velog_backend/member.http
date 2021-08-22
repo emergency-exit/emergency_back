@@ -15,7 +15,7 @@ Content-Type: application/json
 
 {
   "email": "tnswh2023@naver.com",
-  "password": "tnswh2023@"
+  "password": "naver2023@"
 }
 > {%
 client.global.set('AUTH', response.body.data)

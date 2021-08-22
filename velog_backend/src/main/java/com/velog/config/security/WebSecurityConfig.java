@@ -13,6 +13,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsUtils;
 
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -38,7 +39,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.headers()
                 .frameOptions().disable();
 
-        http.httpBasic()
+        http.cors().and()
+                .httpBasic()
                 .disable()
                 .csrf()
                 .ignoringAntMatchers("/h2-console/**")
@@ -47,6 +49,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
+                .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
                 .antMatchers("/h2-console/**").permitAll()
                 .antMatchers("/api/**").authenticated()
                 .anyRequest().permitAll()
