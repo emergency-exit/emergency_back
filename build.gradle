@@ -49,6 +49,9 @@ subprojects {
         // maria db
         implementation group: 'org.mariadb.jdbc', name: 'mariadb-java-client', version: '2.4.1'
 
+        // aop
+        implementation 'org.springframework.boot:spring-boot-starter-aop'
+
 
     }
 }

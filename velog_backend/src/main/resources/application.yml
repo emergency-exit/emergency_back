@@ -12,3 +12,4 @@ spring:
       - credentials.yml
       - auth.yml
       - rds.yml
+

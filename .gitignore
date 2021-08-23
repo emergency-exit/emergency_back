@@ -38,3 +38,4 @@ jwt.yml
 credentials.yml
 auth.yml
 rds.yml
+logs
