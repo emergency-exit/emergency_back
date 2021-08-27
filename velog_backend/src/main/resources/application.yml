@@ -13,3 +13,6 @@ spring:
       - auth.yml
       - rds.yml
 
+logging:
+  level:
+    root: INFO

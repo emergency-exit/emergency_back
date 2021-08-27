@@ -2,7 +2,9 @@ package com.velog.controller;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
+@ToString
 @Getter
 @RequiredArgsConstructor
 public class ApiResponse<T> {

@@ -1,6 +1,7 @@
 package com.velog.config.log;
 
 import com.google.common.base.Joiner;
+import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -12,9 +13,12 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Aspect
 @Component
 public class LogAspect {
@@ -22,21 +26,21 @@ public class LogAspect {
     private static final Logger logger = LoggerFactory.getLogger(LogAspect.class);
 
     @Around("within(com.velog.controller..*)")
-    public Object logging(ProceedingJoinPoint pjp) throws Throwable {
+    public Object logging(ProceedingJoinPoint joinPoint) throws Throwable {
 
         String params = getRequestParams();
 
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+        HttpServletResponse response = ((ServletRequestAttributes)RequestContextHolder.currentRequestAttributes()).getResponse();
+
         long startAt = System.currentTimeMillis();
-
-        logger.info("----------> REQUEST : {}({}) = {}", pjp.getSignature().getDeclaringTypeName(),
-                pjp.getSignature().getName(), params);
-
-        Object result = pjp.proceed();
+        logger.info("----------> REQUEST : {}({}) = {} {}", request.getMethod(), request.getRequestURI(), joinPoint.getArgs(), params);
 
         long endAt = System.currentTimeMillis();
 
-        logger.info("----------> RESPONSE : {}({}) = {} ({}ms)", pjp.getSignature().getDeclaringTypeName(),
-                pjp.getSignature().getName(), result, endAt-startAt);
+        Object result = joinPoint.proceed(joinPoint.getArgs());
+        assert response != null;
+        logger.info("----------> RESPONSE : {} {} ({}ms)", response.getStatus(), result.toString(), endAt - startAt);
 
         return result;
     }
