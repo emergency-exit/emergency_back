@@ -26,4 +26,10 @@ public class BoardCommentController {
         return ApiResponse.success(boardCommentService.createBoardComment(request, principalDetails.getMember()));
     }
 
+    @ApiOperation(value = "댓글 수정", notes = "댓글 수정")
+    @PostMapping("/api/v1/board/comment/update")
+    public ApiResponse<BoardCommentInfoResponse> updateBoardComment(@RequestBody @Valid BoardCommentRequest.UpdateBoardComment request, @AuthenticationPrincipal PrincipalDetails principalDetails) {
+        return ApiResponse.success(boardCommentService.updateBoardComment(request, principalDetails.getMember()));
+    }
+
 }

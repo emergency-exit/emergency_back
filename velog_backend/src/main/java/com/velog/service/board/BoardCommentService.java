@@ -29,4 +29,13 @@ public class BoardCommentService {
         return BoardCommentInfoResponse.of(board.getId(), boardComment.getContent(), memberInfoResponse);
     }
 
+    @Transactional
+    public BoardCommentInfoResponse updateBoardComment(BoardCommentRequest.UpdateBoardComment request, Member member) {
+        BoardComment boardComment = boardCommentRepository.findBoardCommentById(request.getBoardCommentId())
+                .orElseThrow(() -> new NotFoundException(String.format("%s는 존재하지 않는 댓글입니다.", request.getBoardCommentId())));
+        boardComment.updateContent(request.getContent());
+        MemberInfoResponse memberInfoResponse = MemberInfoResponse.of(member);
+        return BoardCommentInfoResponse.of(boardComment.getBoardId(), request.getContent(), memberInfoResponse);
+    }
+
 }

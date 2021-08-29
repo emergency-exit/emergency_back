@@ -29,5 +29,23 @@ public class BoardCommentRequest {
 
     }
 
+    @Getter
+    @NoArgsConstructor
+    public static class UpdateBoardComment {
+
+        private Long boardCommentId;
+        private String content;
+
+        public UpdateBoardComment(Long boardCommentId, String content) {
+            this.boardCommentId = boardCommentId;
+            this.content = content;
+        }
+
+        public static UpdateBoardComment testInstance(Long boardCommentId, String content) {
+            return new UpdateBoardComment(boardCommentId, content);
+        }
+
+    }
+
 
 }
