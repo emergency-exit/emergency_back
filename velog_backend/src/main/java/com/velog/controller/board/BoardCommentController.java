@@ -6,13 +6,13 @@ import com.velog.dto.boardComment.request.BoardCommentRequest;
 import com.velog.dto.boardComment.response.BoardCommentInfoResponse;
 import com.velog.service.board.BoardCommentService;
 import io.swagger.annotations.ApiOperation;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -30,6 +30,12 @@ public class BoardCommentController {
     @PostMapping("/api/v1/board/comment/update")
     public ApiResponse<BoardCommentInfoResponse> updateBoardComment(@RequestBody @Valid BoardCommentRequest.UpdateBoardComment request, @AuthenticationPrincipal PrincipalDetails principalDetails) {
         return ApiResponse.success(boardCommentService.updateBoardComment(request, principalDetails.getMember()));
+    }
+
+    @ApiOperation(value = "게시글 댓글 불러오기", notes = "게시글 댓글 불러오기")
+    @GetMapping("/board/comment/list/{boardId}")
+    public ApiResponse<List<BoardCommentInfoResponse>> retrieveBoardComment(@PathVariable Long boardId) {
+        return ApiResponse.success(boardCommentService.retrieveBoardComment(boardId));
     }
 
 }

@@ -10,11 +10,13 @@ import com.velog.domain.testObject.BoardCommentCreator;
 import com.velog.domain.testObject.BoardCreator;
 import com.velog.domain.testObject.MemberCreator;
 import com.velog.dto.boardComment.request.BoardCommentRequest;
+import com.velog.dto.boardComment.response.BoardCommentInfoResponse;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
@@ -81,6 +83,46 @@ public class BoardCommentServiceTest {
         assertThat(boardCommentList).hasSize(1);
         assertThat(boardCommentList.get(0).getContent()).isEqualTo(request.getContent());
         assertThat(boardCommentList.get(0).getBoardId()).isEqualTo(board.getId());
+    }
+
+    @Test
+    void 게시글의_댓글들을_불러온다() {
+        // given
+        Member member = MemberCreator.create();
+        memberRepository.save(member);
+        Board board = BoardCreator.create("title", member.getId());
+        boardRepository.save(board);
+        BoardComment boardComment1 = BoardCommentCreator.create(board.getId(), member.getId(), "댓글이다1~");
+        BoardComment boardComment2 = BoardCommentCreator.create(board.getId(), member.getId(), "댓글이다2~");
+        BoardComment boardComment3 = BoardCommentCreator.create(board.getId(), member.getId(), "댓글이다3~");
+        boardCommentRepository.saveAll(Arrays.asList(boardComment1, boardComment2, boardComment3));
+
+        // when
+        List<BoardCommentInfoResponse> boardCommentInfoResponses = boardCommentService.retrieveBoardComment(board.getId());
+
+        // then
+        assertThat(boardCommentInfoResponses).hasSize(3);
+        assertThat(boardCommentInfoResponses.get(0).getContent()).isEqualTo(boardComment1.getContent());
+        assertThat(boardCommentInfoResponses.get(0).getMemberInfoResponse().getEmail()).isEqualTo(member.getEmail().getEmail());
+    }
+
+    @Test
+    void 게시글의_댓글들을_불러오는데_유저가_삭제된_유저일_경우_유저정보는_널이_나온다() {
+        // given
+        Board board = BoardCreator.create("title", 1L);
+        boardRepository.save(board);
+        BoardComment boardComment1 = BoardCommentCreator.create(board.getId(), 1L, "댓글이다1~");
+        BoardComment boardComment2 = BoardCommentCreator.create(board.getId(), 1L, "댓글이다2~");
+        BoardComment boardComment3 = BoardCommentCreator.create(board.getId(), 1L, "댓글이다3~");
+        boardCommentRepository.saveAll(Arrays.asList(boardComment1, boardComment2, boardComment3));
+
+        // when
+        List<BoardCommentInfoResponse> boardCommentInfoResponses = boardCommentService.retrieveBoardComment(board.getId());
+
+        // then
+        assertThat(boardCommentInfoResponses).hasSize(3);
+        assertThat(boardCommentInfoResponses.get(0).getMemberInfoResponse().getName()).isNull();
+        assertThat(boardCommentInfoResponses.get(0).getMemberInfoResponse().getMemberImage()).isNull();
     }
 
 }

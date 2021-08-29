@@ -5,6 +5,7 @@ import com.velog.domain.board.BoardComment;
 import com.velog.domain.board.QBoardComment;
 import lombok.RequiredArgsConstructor;
 
+import java.util.List;
 import java.util.Optional;
 
 import static com.velog.domain.board.QBoardComment.boardComment;
@@ -23,4 +24,15 @@ public class BoardCommentRepositoryCustomImpl implements BoardCommentRepositoryC
                 ).fetchOne()
         );
     }
+
+    @Override
+    public List<BoardComment> findBoardCommentByBoardId(Long boardId) {
+        return queryFactory.selectFrom(boardComment)
+                .where(
+                        boardComment.deleteDate.isNull(),
+                        boardComment.boardId.eq(boardId)
+                )
+                .fetch();
+    }
+
 }
