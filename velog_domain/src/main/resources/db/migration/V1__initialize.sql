@@ -24,7 +24,8 @@ create table board_hash_tag
     hash_tag      varchar(50) not null,
     member_id     bigint      not null,
     board_id      bigint      not null,
-    foreign key (board_id) references board (id)
+    constraint board_hash_tag_board_id_fk
+        foreign key (board_id) references board (id)
 );
 
 -- auto-generated definition
@@ -65,7 +66,8 @@ create table series
     modified_date datetime(6) null,
     series_name   varchar(255) not null,
     member_id     bigint       not null,
-    foreign key (member_id) references member (id)
+    constraint series_member_id_fk
+        foreign key (member_id) references member (id)
 );
 
 
