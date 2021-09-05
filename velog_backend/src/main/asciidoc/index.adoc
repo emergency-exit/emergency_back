@@ -1,0 +1,9 @@
+= POTATO_VELOG API
+
+== API 문서 자동생성
+
+.request
+include::target/snippets/member/멤버회원가입/http-request.adoc[]
+
+.response
+include::target/snippets/member/멤버회원가입/http-response.adoc[]
