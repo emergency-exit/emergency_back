@@ -58,7 +58,7 @@ public class SwaggerConfig {
         AuthorizationScope authorizationScope = new AuthorizationScope("/api/*", "accessEverything");
         AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
         authorizationScopes[0] = authorizationScope;
-        return Collections.singletonList(new SecurityReference(HttpHeaders.AUTHORIZATION, authorizationScopes));
+        return Collections.singletonList(new SecurityReference("JWT_AUTH", authorizationScopes));
     }
 
 }
