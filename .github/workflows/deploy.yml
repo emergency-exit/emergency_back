@@ -81,8 +81,7 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         run: |
           aws s3 cp \
-          --region ap-northeast-2 \
-          ./velog_backend/build/libs/*.jar s3://$S3_BUCKET_NAME/$PROJECT_NAME
+          --region ap-northeast-2 ./velog_backend/build/libs/*.jar s3://potato-velog-sunjo/deploy
 #      - name: scp linux server
 #        uses: appleboy/scp-action@master
 #        with:
