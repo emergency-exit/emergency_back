@@ -81,8 +81,8 @@ jobs:
           aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           source: './velog_backend/build/libs/*.jar'
-          dest: 's3://potato-velog-sunjo'
-          aws_region: 'ap-northeast-2'
+          dest: 's3://caveldeploy'
+          aws_region: 'us-east-2'
 
 #      - name: Upload S3
 #        env:
