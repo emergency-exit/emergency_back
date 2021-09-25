@@ -3,6 +3,7 @@ on:
     branches:
       - master
       - develop
+      - deploy
 env:
   S3_BUCKET_NAME: potato-velog-sunjo
   PROJECT_NAME: deploy
@@ -77,7 +78,7 @@ jobs:
         shell: bash
 
       - name: make zip file
-        run: zip -qq -r./$GITHUB_SHA.zip
+        run: zip -qq -r ./$GITHUB_SHA.zip
         shell: bash
 
       - name: Configure AWS credentials
