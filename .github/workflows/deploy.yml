@@ -77,8 +77,8 @@ jobs:
           ./gradlew build
         shell: bash
 
-      - name: make zip file
-        run: zip -qq -r ./$GITHUB_SHA.zip
+      - name: make tgz file
+        run: tar -cpvzf ./$GITHUB_SHA.tgz *
         shell: bash
 
       - name: Configure AWS credentials
@@ -91,7 +91,7 @@ jobs:
 
       - name: Upload S3
         run: |
-          aws s3 cp --region ap-northeast-2 ./$GITHUB_SHA.zip s3://potato-velog-sunjo
+          aws s3 cp --region ap-northeast-2 ./$GITHUB_SHA.tgz s3://potato-velog-sunjo
 
       - name: Code Deploy
-        run: aws deploy create-deployment --application-name cavel-deploy --deployment-config-name CodeDeployDefault.AllAtOnce --deployment-group-name cavel-deploy --s3-location bucket=potato-velog-sunjo,bundleType=zip,key=potato-velog-sunjo/$GITHUB_SHA.zip
+        run: aws deploy create-deployment --application-name cavel-deploy --deployment-config-name CodeDeployDefault.AllAtOnce --deployment-group-name cavel-deploy --s3-location bucket=potato-velog-sunjo,bundleType=tgz,key=potato-velog-sunjo/$GITHUB_SHA.tgz
