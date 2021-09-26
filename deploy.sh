@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-REPOSITORY=/opt/potato-velog
+REPOSITORY=/home/ec2-user
 cd $REPOSITORY
 
 APP_NAME=action_codedeploy
