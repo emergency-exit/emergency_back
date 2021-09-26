@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-REPOSITORY=/home/ec2-user
+REPOSITORY=/home/ec2-user/velog_backend
 cd $REPOSITORY
 
 APP_NAME=action_codedeploy
