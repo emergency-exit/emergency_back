@@ -91,7 +91,7 @@ jobs:
 
       - name: Upload S3
         run: |
-          aws s3 cp --region ap-northeast-2 ./$GITHUB_SHA.tgz s3://potato-velog-sunjo
+          aws s3 cp --region ap-northeast-2 ./$GITHUB_SHA.tgz s3://potato-velog-sunjo/deploy
 
       - name: Code Deploy
-        run: aws deploy create-deployment --application-name cavel-deploy --deployment-config-name CodeDeployDefault.AllAtOnce --deployment-group-name cavel-deploy --s3-location bucket=potato-velog-sunjo,bundleType=tgz,key=$GITHUB_SHA.tgz
+        run: aws deploy create-deployment --application-name cavel-deploy --deployment-config-name CodeDeployDefault.AllAtOnce --deployment-group-name cavel-deploy --s3-location bucket=potato-velog-sunjo,bundleType=tgz,key=deploy/$GITHUB_SHA.tgz
