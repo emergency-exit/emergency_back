@@ -18,10 +18,10 @@ jobs:
 
       - name: Create auth.yml file
         env:
-          KAKAO_AUTH_CLIENT_KEY: ${ secrets.KAKAO_AUTH_CLIENT_KEY }
-          KAKAO_AUTH_GRANT_TYPE: ${ secrets.KAKAO_AUTH_GRANT_TYPE }
-          KAKAO_AUTH_URL: ${ secrets.KAKAO_AUTH_URL }
-          KAKAO_AUTH_USER_INFO_URL: ${ secrets.KAKAO_AUTH_USER_INFO_URL }
+          KAKAO_AUTH_CLIENT_KEY: ${{ secrets.KAKAO_AUTH_CLIENT_KEY }}
+          KAKAO_AUTH_GRANT_TYPE: ${{ secrets.KAKAO_AUTH_GRANT_TYPE }}
+          KAKAO_AUTH_URL: ${{ secrets.KAKAO_AUTH_URL }
+          KAKAO_AUTH_USER_INFO_URL: ${{ secrets.KAKAO_AUTH_USER_INFO_URL }}
           RESOURCE_FILE: velog_backend/src/main/resources/auth.properties
         run: |
           touch $RESOURCE_FILE
@@ -32,8 +32,8 @@ jobs:
 
       - name: Create credentials.yml file
         env:
-          CLOUD_AWS_CREDENTIALS_ACCESS_KEY: ${ secrets.CLOUD_AWS_CREDENTIALS_ACCESS_KEY }
-          CLOUD_AWS_CREDENTIALS_SECRET_KEY: ${ secrets.CLOUD_AWS_CREDENTIALS_SECRET_KEY }
+          CLOUD_AWS_CREDENTIALS_ACCESS_KEY: ${{ secrets.CLOUD_AWS_CREDENTIALS_ACCESS_KEY }}
+          CLOUD_AWS_CREDENTIALS_SECRET_KEY: ${{ secrets.CLOUD_AWS_CREDENTIALS_SECRET_KEY }}
           RESOURCE_FILE: velog_backend/src/main/resources/credentials.properties
         run: |
           touch $RESOURCE_FILE
@@ -42,17 +42,17 @@ jobs:
 
       - name: Create jwt.yml file
         env:
-          JWT_SECRET: ${ secrets.JWT_SECRET }
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
           RESOURCE_FILE: velog_backend/src/main/resources/jwt.properties
         run: |
           touch $RESOURCE_FILE
-          echo "jwt.secret=$CLOUD_AWS_CREDENTIALS_ACCESS_KEY" >> $RESOURCE_FILE
+          echo "jwt.secret=$JWT_SECRET" >> $RESOURCE_FILE
 
       - name: Create rds.yml file
         env:
-          RDS_URL: ${ secrets.RDS_URL }
-          RDS_USERNAME: ${ secrets.RDS_USERNAME }
-          RDS_PASSWORD: ${ secrets.RDS_PASSWORD }
+          RDS_URL: ${{ secrets.RDS_URL }}
+          RDS_USERNAME: ${{ secrets.RDS_USERNAME }}
+          RDS_PASSWORD: ${{ secrets.RDS_PASSWORD }}
           RESOURCE_FILE: velog_domain/src/main/resources/rds.properties
         run: |
           touch $RESOURCE_FILE

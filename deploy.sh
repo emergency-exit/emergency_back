@@ -5,7 +5,7 @@ cd $REPOSITORY
 
 APP_NAME=action_codedeploy
 #JAR_NAME=$(ls $REPOSITORY/build/libs/ | grep '.jar' | tail -n 1)
-JAR_PATH=$REPOSITORY/build/libs/velog_backend-0.0.1-SNAPSHOT
+JAR_PATH=$REPOSITORY/build/libs/velog_backend-0.0.1-SNAPSHOT.jar
 
 CURRENT_PID=$(pgrep -f $APP_NAME)
 
