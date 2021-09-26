@@ -20,7 +20,7 @@ jobs:
         env:
           KAKAO_AUTH_CLIENT_KEY: ${{ secrets.KAKAO_AUTH_CLIENT_KEY }}
           KAKAO_AUTH_GRANT_TYPE: ${{ secrets.KAKAO_AUTH_GRANT_TYPE }}
-          KAKAO_AUTH_URL: ${{ secrets.KAKAO_AUTH_URL }
+          KAKAO_AUTH_URL: ${{ secrets.KAKAO_AUTH_URL }}
           KAKAO_AUTH_USER_INFO_URL: ${{ secrets.KAKAO_AUTH_USER_INFO_URL }}
           RESOURCE_FILE: velog_backend/src/main/resources/auth.properties
         run: |
