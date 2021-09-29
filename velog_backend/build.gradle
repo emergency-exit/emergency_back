@@ -1,6 +1,6 @@
 plugins {
     id 'java'
-    id 'org.asciidoctor.convert' version '1.5.9.2'
+    id "org.asciidoctor.jvm.convert" version "3.3.2"
 }
 
 group = 'com.velog'
@@ -18,10 +18,22 @@ repositories {
 }
 
 ext {
-    snippetsDir = file('target/snippets')
+    snippetsDir = file('build/generated-snippets')
 }
 
-ext['spring-restdocs.version'] = '2.0.5.RELEASE'
+asciidoctor {
+    dependsOn test
+    attributes 'snippets': snippetsDir
+    inputs.dir snippetsDir
+}
+
+bootJar {
+    dependsOn asciidoctor
+    copy {
+        from "${asciidoctor.outputDir}"
+        into 'src/main/resources/static/docs'
+    }
+}
 
 dependencies {
 
@@ -42,27 +54,9 @@ dependencies {
     implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-aws', version: '2.2.1.RELEASE'
     implementation group: 'commons-io', name: 'commons-io', version: '2.6'
 
-    // rest docs
-//    testImplementation 'org.springframeword.restdocs:spring-restdocs-mockmvc'
-
-    asciidoctor "org.springframework.restdocs:spring-restdocs-asciidoctor:2.0.5.RELEASE"
-    testCompile "org.springframework.restdocs:spring-restdocs-mockmvc:2.0.5.RELEASE"
+    testImplementation group: 'org.springframework.restdocs', name: 'spring-restdocs-mockmvc', version: '2.0.5.RELEASE'
 }
 
 test {
     useJUnitPlatform()
-    outputs.dir snippetsDir
-}
-
-asciidoctor {
-    sourceDir 'src/main/asciidoc'
-    attributes 'snippets': file('target/snippets')
-    outputDir 'src/main/resources/static'
-}
-
-bootJar {
-    dependsOn asciidoctor
-    from ("${asciidoctor.outputDir}/html5") {
-        into 'src/main/resources/static/docs'
-    }
 }

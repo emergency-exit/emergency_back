@@ -39,3 +39,6 @@ credentials.yml
 auth.yml
 rds.yml
 logs
+
+api.html
+api-member.html

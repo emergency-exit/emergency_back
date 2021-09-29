@@ -57,6 +57,7 @@ subprojects {
 }
 
 project(':velog_backend') {
+    bootJar.enabled = true
     apply plugin: 'org.springframework.boot'
     apply plugin: 'io.spring.dependency-management'
 }

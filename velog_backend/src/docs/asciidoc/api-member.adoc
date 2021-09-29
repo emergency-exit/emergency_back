@@ -1,0 +1,27 @@
+= RESTful velog API Guide
+velog;
+:doctype: velog
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 4
+:sectlinks:
+:operation-curl-request-title: Example request
+:operation-http-response-title: Example response
+
+
+[[resources_notes]]
+== Member
+멤버 관련 API입니다.
+
+[[resources_board_create]]
+=== sign up member
+
+Request HTTP Example
+include::{snippets}/member/signup/http-request.adoc[]
+
+Request Fields
+include::{snippets}/member/signup/request-fields.adoc[]
+
+Response
+include::{snippets}/member/signup/http-response.adoc[]

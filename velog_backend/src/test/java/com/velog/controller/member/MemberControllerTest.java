@@ -1,6 +1,7 @@
 package com.velog.controller.member;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.velog.ApiDocumentUtils;
 import com.velog.dto.member.request.CreateMemberRequest;
 import com.velog.enumData.ProviderType;
 import org.junit.jupiter.api.Test;
@@ -12,6 +13,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
+import static com.velog.ApiDocumentUtils.getDocumentRequest;
+import static com.velog.ApiDocumentUtils.getDocumentResponse;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
@@ -21,9 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 
 @SpringBootTest
-@AutoConfigureRestDocs(
-        outputDir = "src/main/asciidoc/target/snippets"
-)
+@AutoConfigureRestDocs(uriHost = "52.79.226.150")
 @AutoConfigureMockMvc
 public class MemberControllerTest {
 
@@ -47,9 +48,9 @@ public class MemberControllerTest {
                 .content(objectMapper.writeValueAsString(request))
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andDo(document("member/{method-name}",
-                        preprocessRequest(prettyPrint()),
-                        preprocessResponse(prettyPrint()),
+                .andDo(document("member/signup",
+                        getDocumentRequest(),
+                        getDocumentResponse(),
                         requestFields(
                                 fieldWithPath("email").description("email"),
                                 fieldWithPath("password").description("password"),
