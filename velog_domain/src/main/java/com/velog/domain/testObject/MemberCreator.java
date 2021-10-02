@@ -16,4 +16,11 @@ public class MemberCreator {
                 .build();
     }
 
+    public static Member create(String email, String password) {
+        return Member.builder().email(Email.of(email))
+                .name("tnswh")
+                .password(Password.of(password))
+                .build();
+    }
+
 }

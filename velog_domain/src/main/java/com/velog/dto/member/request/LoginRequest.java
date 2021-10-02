@@ -20,4 +20,8 @@ public class LoginRequest {
         this.password = password;
     }
 
+    public static LoginRequest testInstance(String email, String password) {
+        return new LoginRequest(email, password);
+    }
+
 }

@@ -5,5 +5,5 @@ Content-Type: multipart/form-data; boundary=WebAppBoundary
 --WebAppBoundary
 Content-Disposition: form-data; name="file"; filename="cat.jpg"
 
-< C:/Users/sunjo/Desktop/cat.jpg
+< /Users/yusunjo/Desktop/Test.png
 --WebAppBoundary--

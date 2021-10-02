@@ -22,4 +22,8 @@ public class UpdateMemberRequest {
         this.description = description;
     }
 
+    public static UpdateMemberRequest testInstance(String name, String velogName, String description) {
+        return new UpdateMemberRequest(name, velogName, description);
+    }
+
 }

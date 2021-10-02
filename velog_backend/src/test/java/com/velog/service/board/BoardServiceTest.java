@@ -57,6 +57,8 @@ public class BoardServiceTest {
         memberRepository.deleteAll();
         seriesRepository.deleteAll();
         boardRepository.deleteAll();
+        boardHashTagRepository.deleteAll();
+        boardLikeRepository.deleteAll();
     }
 
     @Test
@@ -86,7 +88,6 @@ public class BoardServiceTest {
                 .content("content")
                 .boardThumbnailUrl("https://naver.com")
                 .isPrivate(true)
-                .memberId(member.getId())
                 .seriesId(1L)
                 .hashTagList(Collections.emptyList())
                 .build();
@@ -113,7 +114,6 @@ public class BoardServiceTest {
                 .content("content")
                 .boardThumbnailUrl("https://naver.com")
                 .isPrivate(true)
-                .memberId(member.getId())
                 .seriesId(1L)
                 .hashTagList(Arrays.asList("자바", "스트림"))
                 .build();

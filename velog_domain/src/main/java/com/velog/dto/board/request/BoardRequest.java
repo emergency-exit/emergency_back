@@ -26,6 +26,10 @@ public class BoardRequest {
             this.seriesName = seriesName;
         }
 
+        public static CreateSeries testInstance(String seriesName) {
+            return new CreateSeries(seriesName);
+        }
+
     }
 
     @Getter
@@ -39,9 +43,6 @@ public class BoardRequest {
 
         private String content;
 
-        @NotNull
-        private Long memberId;
-
         @NotNull(message = "공개 유무를 넣어주세요")
         private Boolean isPrivate;
 
@@ -51,11 +52,10 @@ public class BoardRequest {
         private List<String> hashTagList = new ArrayList<>();
 
         @Builder(builderMethodName = "testBuilder")
-        public CreateBoard(Long seriesId, String title, String content, Long memberId, Boolean isPrivate, String boardThumbnailUrl, List<String> hashTagList) {
+        public CreateBoard(Long seriesId, String title, String content, Boolean isPrivate, String boardThumbnailUrl, List<String> hashTagList) {
             this.seriesId = seriesId;
             this.title = title;
             this.content = content;
-            this.memberId = memberId;
             this.isPrivate = isPrivate;
             this.boardThumbnailUrl = boardThumbnailUrl;
             this.hashTagList = hashTagList;
@@ -82,6 +82,16 @@ public class BoardRequest {
         private Long lastBoardId;
         private int size;
         private BoardPeriod period;
+
+        public RetrieveBoardRequest(Long lastBoardId, int size, BoardPeriod period) {
+            this.lastBoardId = lastBoardId;
+            this.size = size;
+            this.period = period;
+        }
+
+        public static RetrieveBoardRequest testInstance(Long lastBoardId, int size, BoardPeriod period) {
+            return new RetrieveBoardRequest(lastBoardId, size, period);
+        }
 
     }
 
