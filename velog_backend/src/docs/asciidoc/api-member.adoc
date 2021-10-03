@@ -14,7 +14,7 @@ velog;
 == Member
 멤버 관련 API입니다.
 
-[[resources_board_create]]
+[[resources_member_signup]]
 === sign up member
 
 Request HTTP Example
@@ -25,3 +25,32 @@ include::{snippets}/member/signup/request-fields.adoc[]
 
 Response
 include::{snippets}/member/signup/http-response.adoc[]
+
+[[resources_member_login]]
+=== login member
+
+Request HTTP Example
+include::{snippets}/member/login/http-request.adoc[]
+
+Request Fields
+include::{snippets}/member/login/request-fields.adoc[]
+
+Response
+include::{snippets}/member/login/http-response.adoc[]
+
+[[resources_get_myInfo]]
+=== myInfo
+
+Request HTTP Example
+include::{snippets}/member/myInfo/http-request.adoc[]
+
+Response
+include::{snippets}/member/myInfo/http-response.adoc[]
+
+[[resources_update_myInfo]]
+
+Request HTTP Example
+include::{snippets}/member/updateMyInfo/http-request.adoc[]
+
+Response
+include::{snippets}/member/updateMyInfo/http-response.adoc[]

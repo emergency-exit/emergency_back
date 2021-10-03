@@ -44,6 +44,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .disable()
                 .csrf()
                 .ignoringAntMatchers("/h2-console/**")
+                .ignoringAntMatchers("/docs/**")
                 .disable()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)

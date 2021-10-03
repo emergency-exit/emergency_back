@@ -13,7 +13,6 @@ import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDoc
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.util.LinkedMultiValueMap;
@@ -25,11 +24,11 @@ import java.util.Collections;
 import static com.velog.ApiDocumentUtils.getDocumentRequest;
 import static com.velog.ApiDocumentUtils.getDocumentResponse;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -59,11 +58,12 @@ public class BoardControllerTest extends MemberSetUp {
         BoardRequest.CreateSeries request = BoardRequest.CreateSeries.testInstance("자바시리즈");
 
         // when
-        final ResultActions resultActions = mockMvc.perform(post("/api/v1/series")
-                        .header("Authorization", token)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(request))
-                        .accept(MediaType.APPLICATION_JSON))
+        final ResultActions resultActions = mockMvc.perform(
+                        post("/api/v1/series")
+                                .header("Authorization", token)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(objectMapper.writeValueAsString(request))
+                                .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andDo(document("board/series",
                         getDocumentRequest(),
@@ -96,11 +96,12 @@ public class BoardControllerTest extends MemberSetUp {
                 .build();
 
         // when
-        final ResultActions resultActions = mockMvc.perform(post("/api/v1/board")
-                        .header("Authorization", token)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(request))
-                        .accept(MediaType.APPLICATION_JSON))
+        final ResultActions resultActions = mockMvc.perform(
+                        post("/api/v1/board")
+                                .header("Authorization", token)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(objectMapper.writeValueAsString(request))
+                                .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andDo(document("board/create",
                         getDocumentRequest(),
@@ -141,15 +142,16 @@ public class BoardControllerTest extends MemberSetUp {
         boardRepository.saveAll(Arrays.asList(title1, title2, title3, title4, title5));
 
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-        params.add("lastBoardId", "3");
-        params.add("size", "2");
+        params.add("lastBoardId", title3.getId().toString());
+        params.add("size", "1");
         params.add("period", "LATEST");
 
         // when
-        final ResultActions resultActions = mockMvc.perform(get("/board/list")
-                        .params(params)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
+        final ResultActions resultActions = mockMvc.perform(
+                        get("/board/list")
+                                .params(params)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andDo(document("board/list",
                         getDocumentRequest(),
@@ -184,7 +186,7 @@ public class BoardControllerTest extends MemberSetUp {
 
         // when
         final ResultActions resultActions = mockMvc.perform(
-                        RestDocumentationRequestBuilders.get("/board/detail/{boardId}", board.getId())
+                        get("/board/detail/{boardId}", board.getId())
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())

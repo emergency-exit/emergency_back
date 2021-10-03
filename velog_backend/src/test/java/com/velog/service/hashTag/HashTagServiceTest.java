@@ -39,7 +39,7 @@ public class HashTagServiceTest {
     @AfterEach
     void clean() {
         boardRepository.deleteAll();
-//        boardHashTagRepository.deleteAll();
+        boardHashTagRepository.deleteAll();
         memberRepository.deleteAll();
     }
 

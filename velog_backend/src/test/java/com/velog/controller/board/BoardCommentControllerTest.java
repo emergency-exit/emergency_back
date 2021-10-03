@@ -16,18 +16,18 @@ import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDoc
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
 import static com.velog.ApiDocumentUtils.getDocumentRequest;
 import static com.velog.ApiDocumentUtils.getDocumentResponse;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -64,11 +64,12 @@ public class BoardCommentControllerTest extends MemberSetUp {
         BoardCommentRequest.CreateBoardComment request = BoardCommentRequest.CreateBoardComment.testInstance(board.getId(), "content");
 
         // when
-        final ResultActions resultActions = mockMvc.perform(post("/api/v1/board/comment")
-                        .header("Authorization", token)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(request))
-                        .accept(MediaType.APPLICATION_JSON))
+        final ResultActions resultActions = mockMvc.perform(
+                        post("/api/v1/board/comment")
+                                .header("Authorization", token)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(objectMapper.writeValueAsString(request))
+                                .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andDo(document("board/comment/create",
                         getDocumentRequest(),
@@ -104,11 +105,12 @@ public class BoardCommentControllerTest extends MemberSetUp {
 
         BoardCommentRequest.UpdateBoardComment request = BoardCommentRequest.UpdateBoardComment.testInstance(comment.getId(), "updateContent");
         // when
-        final ResultActions resultActions = mockMvc.perform(post("/api/v1/board/comment/update")
-                        .header("Authorization", token)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(request))
-                        .accept(MediaType.APPLICATION_JSON))
+        final ResultActions resultActions = mockMvc.perform(
+                        post("/api/v1/board/comment/update")
+                                .header("Authorization", token)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(objectMapper.writeValueAsString(request))
+                                .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andDo(document("board/comment/update",
                         getDocumentRequest(),
@@ -144,10 +146,10 @@ public class BoardCommentControllerTest extends MemberSetUp {
 
         // when
         final ResultActions resultActions = mockMvc.perform(
-                        RestDocumentationRequestBuilders.get("/board/comment/list/{boardId}", board.getId())
-                        .header("Authorization", token)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
+                        get("/board/comment/list/{boardId}", board.getId())
+                                .header("Authorization", token)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andDo(document("board/comment/update",
                         getDocumentRequest(),

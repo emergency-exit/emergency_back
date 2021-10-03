@@ -23,8 +23,8 @@ import org.springframework.test.web.servlet.ResultActions;
 import static com.velog.ApiDocumentUtils.getDocumentRequest;
 import static com.velog.ApiDocumentUtils.getDocumentResponse;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -63,10 +63,11 @@ public class MemberControllerTest {
         CreateMemberRequest request = new CreateMemberRequest(email, password, name, null, ProviderType.LOCAL);
 
         // when
-        final ResultActions resultActions = mockMvc.perform(post("/signup")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(request))
-                .accept(MediaType.APPLICATION_JSON))
+        final ResultActions resultActions = mockMvc.perform(
+                        post("/signup")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(objectMapper.writeValueAsString(request))
+                                .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andDo(document("member/signup",
                         getDocumentRequest(),
@@ -82,7 +83,7 @@ public class MemberControllerTest {
                                 fieldWithPath("code").description("success"),
                                 fieldWithPath("data").description("data")
                         )
-                        ));
+                ));
 
         // then
         resultActions.andExpect(status().isOk());
@@ -99,10 +100,11 @@ public class MemberControllerTest {
         LoginRequest request = LoginRequest.testInstance(email, password);
 
         // when
-        final ResultActions resultActions = mockMvc.perform(post("/login")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(request))
-                        .accept(MediaType.APPLICATION_JSON))
+        final ResultActions resultActions = mockMvc.perform(
+                        post("/login")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(objectMapper.writeValueAsString(request))
+                                .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andDo(document("member/login",
                         getDocumentRequest(),
@@ -132,10 +134,11 @@ public class MemberControllerTest {
         String token = jwtTokenProvider.createToken(email);
 
         // when
-        final ResultActions resultActions = mockMvc.perform(get("/api/v1/myInfo")
-                        .header("Authorization", token)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
+        final ResultActions resultActions = mockMvc.perform(
+                        get("/api/v1/myInfo")
+                                .header("Authorization", token)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andDo(document("member/myInfo",
                         getDocumentRequest(),
@@ -167,11 +170,12 @@ public class MemberControllerTest {
         UpdateMemberRequest request = UpdateMemberRequest.testInstance("uName", "velogggg", "블로그 설명입니다.");
 
         // when
-        final ResultActions resultActions = mockMvc.perform(put("/api/v1/myInfo/update")
-                        .header("Authorization", token)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(request))
-                        .accept(MediaType.APPLICATION_JSON))
+        final ResultActions resultActions = mockMvc.perform(
+                        put("/api/v1/myInfo/update")
+                                .header("Authorization", token)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(objectMapper.writeValueAsString(request))
+                                .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andDo(document("member/updateMyInfo",
                         getDocumentRequest(),
