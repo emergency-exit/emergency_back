@@ -69,3 +69,33 @@ project(':velog_domain') {
     apply plugin: 'org.springframework.boot'
     apply plugin: 'io.spring.dependency-management'
 }
+
+def testProjects = [
+        project(':velog_domain'),
+        project(':velog_backend'),
+]
+
+configure(testProjects) {
+    apply {
+        plugin('jacoco')
+    }
+
+    jacoco {
+        toolVersion = '0.8.5'
+    }
+
+    jacocoTestReport {
+        executionData(fileTree(project.rootDir.absolutePath).include("**/build/jacoco/*.exec"))
+        reports {
+            html.enabled true
+            xml.enabled true
+            csv.enabled false
+
+            xml.destination file("$buildDir/jacoco/jacoco.xml")
+        }
+        testProjects.forEach {
+            sourceSets(it.sourceSets["main"] as SourceSet)
+        }
+    }
+
+}

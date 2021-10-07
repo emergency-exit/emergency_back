@@ -9,6 +9,7 @@ sonarqube {
         property "sonar.projectKey", "emergency-exit_emergency_back"
         property "sonar.organization", "sonarqubevelog"
         property "sonar.host.url", "https://sonarcloud.io"
+        property "sonar.coverage.jacoco.xmlReportPaths", "build/jacoco/jacoco.xml"
     }
 }
 
@@ -83,5 +84,13 @@ dependencies {
 }
 
 test {
-    useJUnitPlatform()
+    jacoco {
+        destinationFile = file("$buildDir/jacoco/jacoco.exec")
+    }
+
+    useJUnitPlatform {
+        includeEngines 'junit-jupiter'
+    }
+
+    finalizedBy 'jacocoTestReport'
 }
