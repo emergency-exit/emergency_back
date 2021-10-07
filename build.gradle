@@ -90,6 +90,8 @@ configure(testProjects) {
             html.enabled true
             xml.enabled true
             csv.enabled false
+
+            xml.destination file("$buildDir/jacoco/jacoco.xml")
         }
         testProjects.forEach {
             sourceSets(it.sourceSets["main"] as SourceSet)
