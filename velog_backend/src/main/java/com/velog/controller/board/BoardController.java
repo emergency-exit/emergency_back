@@ -36,8 +36,8 @@ public class BoardController {
 
     @ApiOperation(value = "게시글 조회", notes = "게시글 조회, 오늘, 이번주, 이번달, 올해, 최신")
     @GetMapping("/board/list")
-    public ApiResponse<List<BoardRetrieveResponse>> retrieveBoard(BoardRequest.RetrieveBoardRequest request) {
-        List<BoardRetrieveResponse> boardList = boardService.retrieveBoard(request.getLastBoardId(), request.getSize(), request.getPeriod());
+    public ApiResponse<List<BoardRetrieveResponse>> retrieveBoard(@Valid BoardRequest.RetrieveBoardRequest request) {
+        List<BoardRetrieveResponse> boardList = boardService.retrieveBoard(request.getLastBoardId(), request.getSize(), request.getPeriod(), null);
         return ApiResponse.success(boardList);
     }
 

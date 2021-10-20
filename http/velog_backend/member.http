@@ -38,3 +38,7 @@ Authorization: {{AUTH}}
   "velogName": "velogName",
   "description": "description"
 }
+
+### 내가 쓴 글 가져오기
+GET {{host_api}}/api/v1/myInfo/board/list?lastBoardId=3&size=2&period=LATEST
+Authorization: {{AUTH}}

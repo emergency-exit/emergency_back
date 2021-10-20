@@ -9,10 +9,12 @@ import java.util.Optional;
 
 public interface BoardRepositoryCustom {
 
-    List<BoardRetrieveResponse> findAllBoardByOrderByIdDescAndTerm(Long lastBoardId, int size, BoardPeriod period);
+    List<BoardRetrieveResponse> findAllBoardByOrderByIdDescAndTerm(Long lastBoardId, int size, BoardPeriod period, Long memberId);
 
     Optional<Board> findBoardById(Long boardId);
 
     Board getBoardWithHashTag(Long boardId);
+
+    Optional<Board> findBoardWithHashTagByIdAndMemberId(Long boardId, Long memberId);
 
 }
