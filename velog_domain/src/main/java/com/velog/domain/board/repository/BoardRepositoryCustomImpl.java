@@ -26,7 +26,7 @@ public class BoardRepositoryCustomImpl implements BoardRepositoryCustom {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public List<BoardRetrieveResponse> findAllBoardByOrderByIdDescAndTerm(Long lastBoardId, int size, BoardPeriod period) {
+    public List<BoardRetrieveResponse> findAllBoardByOrderByIdDescAndTerm(Long lastBoardId, int size, BoardPeriod period, Long memberId) {
         return queryFactory
                 .select(Projections.fields(BoardRetrieveResponse.class,
                         board.id.as("boardId"),
@@ -43,7 +43,8 @@ public class BoardRepositoryCustomImpl implements BoardRepositoryCustom {
                 .where(
                         paginationByLastBoardId(lastBoardId),
                         devideByPeriod(period),
-                        board.isPrivate.eq(false)
+                        board.isPrivate.eq(false),
+                        eqMemberId(memberId)
                 )
                 .orderBy(board.id.desc())
                 .limit(size)
@@ -73,11 +74,31 @@ public class BoardRepositoryCustomImpl implements BoardRepositoryCustom {
                 .fetchOne();
     }
 
+    @Override
+    public Optional<Board> findBoardWithHashTagByIdAndMemberId(Long boardId, Long memberId) {
+        return Optional.ofNullable(queryFactory
+                .selectFrom(board)
+                .leftJoin(board.hashTagList, boardHashTag).fetchJoin()
+                .where(
+                        board.id.eq(boardId),
+                        board.memberId.eq(memberId)
+                )
+                .fetchOne()
+        );
+    }
+
     private BooleanExpression paginationByLastBoardId(Long lastBoardId) {
         if (lastBoardId == 0) {
             return null;
         }
         return board.id.lt(lastBoardId);
+    }
+
+    private BooleanExpression eqMemberId(Long memberId) {
+        if (memberId == null) {
+            return null;
+        }
+        return board.memberId.eq(memberId);
     }
 
     private BooleanExpression devideByPeriod(BoardPeriod period) {

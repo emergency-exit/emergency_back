@@ -147,7 +147,7 @@ public class BoardServiceTest {
         boardRepository.saveAll(Arrays.asList(board1, board2, board3, board4, board5));
 
         // when
-        List<BoardRetrieveResponse> boardList = boardService.retrieveBoard(board5.getId(), 2, BoardPeriod.LATEST);
+        List<BoardRetrieveResponse> boardList = boardService.retrieveBoard(board5.getId(), 2, BoardPeriod.LATEST, null);
 
         // then
         assertThat(boardList).hasSize(2);
@@ -170,7 +170,7 @@ public class BoardServiceTest {
         boardRepository.saveAll(Arrays.asList(board1, board2, board3, board4, board5));
 
         // when
-        List<BoardRetrieveResponse> boardList = boardService.retrieveBoard(board2.getId(), 2, BoardPeriod.LATEST);
+        List<BoardRetrieveResponse> boardList = boardService.retrieveBoard(board2.getId(), 2, BoardPeriod.LATEST, null);
 
         // then
         assertThat(boardList).hasSize(1);
@@ -180,7 +180,7 @@ public class BoardServiceTest {
     @Test
     void 게시물이_없을경우_빈배열_반환한다() {
         // when
-        List<BoardRetrieveResponse> boardList = boardService.retrieveBoard(0L, 2, BoardPeriod.LATEST);
+        List<BoardRetrieveResponse> boardList = boardService.retrieveBoard(0L, 2, BoardPeriod.LATEST, null);
 
         // then
         assertThat(boardList).isEmpty();

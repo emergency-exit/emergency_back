@@ -41,8 +41,8 @@ public class BoardService {
     }
 
     @Transactional(readOnly = true)
-    public List<BoardRetrieveResponse> retrieveBoard(Long lastBoardId, int size, BoardPeriod period) {
-        return boardRepository.findAllBoardByOrderByIdDescAndTerm(lastBoardId, size, period);
+    public List<BoardRetrieveResponse> retrieveBoard(Long lastBoardId, int size, BoardPeriod period, Long memberId) {
+        return boardRepository.findAllBoardByOrderByIdDescAndTerm(lastBoardId, size, period, memberId);
     }
 
     @Transactional
@@ -66,6 +66,15 @@ public class BoardService {
         Board boardWithHashTag = boardRepository.getBoardWithHashTag(boardId);
         Member member = memberRepository.findMemberById(boardWithHashTag.getMemberId())
                 .orElseThrow(() -> new NotFoundException(String.format("%s는 존재하지 않는 유저입니다.", boardWithHashTag.getMemberId())));
+        return BoardInfoWithHashTagResponse.of(boardWithHashTag, member);
+    }
+
+    @Transactional
+    public BoardInfoWithHashTagResponse getMyBoard(Long boardId, Long memberId) {
+        Board boardWithHashTag = boardRepository.findBoardWithHashTagByIdAndMemberId(boardId, memberId)
+                .orElseThrow(() -> new NotFoundException(String.format("해당 멤버 (%s)의 게시글 (%s)는 존재하지 않습니다", memberId, boardId)));
+        Member member = memberRepository.findMemberById(memberId)
+                .orElseThrow(() -> new NotFoundException(String.format("%s는 존재하지 않는 유저입니다.", memberId)));
         return BoardInfoWithHashTagResponse.of(boardWithHashTag, member);
     }
 

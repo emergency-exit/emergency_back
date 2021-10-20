@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
@@ -80,6 +81,7 @@ public class BoardRequest {
     public static class RetrieveBoardRequest {
 
         private Long lastBoardId;
+        @Min(1)
         private int size;
         private BoardPeriod period;
 
