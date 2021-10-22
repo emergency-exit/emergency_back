@@ -10,8 +10,8 @@ spring:
       - application-domain.yml
       - aws.yml
       - jwt.properties
-      - credentials.yml
-      - auth.yml
+      - credentials.properties
+      - auth.properties
 
 logging:
   level:
