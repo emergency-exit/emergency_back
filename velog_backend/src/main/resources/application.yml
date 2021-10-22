@@ -9,7 +9,7 @@ spring:
       - application-domain.yml
       - aws.yml
       - jwt.properties
-      - credentials.properties
+      - credentials.yml
       - auth.properties
       - rds.properties
 
