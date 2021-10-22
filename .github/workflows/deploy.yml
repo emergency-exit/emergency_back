@@ -40,10 +40,10 @@ jobs:
           echo "cloud.aws.credentials.accessKey=$CLOUD_AWS_CREDENTIALS_ACCESS_KEY \
                 cloud.aws.credentials.secretKey=$CLOUD_AWS_CREDENTIALS_SECRET_KEY" >> $RESOURCE_FILE
 
-      - name: Create jwt.yml file
+      - name: Create jwt.properties file
         env:
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
-          RESOURCE_FILE: velog_backend/src/main/resources/jwt.yml
+          RESOURCE_FILE: velog_backend/src/main/resources/jwt.properties
         run: |
           touch $RESOURCE_FILE
           echo "jwt.secret=$JWT_SECRET" >> $RESOURCE_FILE

@@ -35,6 +35,7 @@ out/
 
 generated/
 jwt.yml
+jwt.properties
 credentials.yml
 auth.yml
 rds.yml
