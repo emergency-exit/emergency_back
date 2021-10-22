@@ -56,12 +56,12 @@ jobs:
           RESOURCE_FILE: velog_backend/src/main/resources/application-dev.properties
         run: |
           touch $RESOURCE_FILE
-          echo "spring.datasource.url=$RDS_URL \
-                spring.datasource.driverClassName=org.mariadb.jdbc.Driver \
-                spring.datasource.username=$RDS_USERNAME \
+          echo "spring.datasource.username=$RDS_USERNAME \
                 spring.datasource.password=$RDS_PASSWORD \
+                spring.datasource.driverClassName=org.mariadb.jdbc.Driver \
                 spring.jpa.databasePlatform=org.hibernate.dialect.MariaDB103Dialect
                 spring.jpa.hibernate.ddlAuto=update \
+                spring.datasource.url=$RDS_URL \
                 spring.flyway.enabled=false" >> $RESOURCE_FILE
 
       - name: Set up JDK 11
