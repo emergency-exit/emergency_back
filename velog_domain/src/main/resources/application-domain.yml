@@ -27,12 +27,13 @@ spring:
 spring:
   config:
     activate:
-      on-profile: "prod"
+      on-profile: dev
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: update
   flyway:
     baseline-version: 0
     baseline-on-migrate: true
+    enabled: false
 
 

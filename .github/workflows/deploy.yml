@@ -56,7 +56,7 @@ jobs:
           RESOURCE_FILE: velog_domain/src/main/resources/rds.properties
         run: |
           touch $RESOURCE_FILE
-          echo "spring.config.activate.on-profile=prod
+          echo "spring.config.activate.on-profile=dev
                 spring.datasource.hikari.jdbc-url=$RDS_URL \
                 spring.datasource.hikari.driver-class-name=org.mariadb.jdbc.Driver \
                 spring.datasource.hikari.username=$RDS_USERNAME \
