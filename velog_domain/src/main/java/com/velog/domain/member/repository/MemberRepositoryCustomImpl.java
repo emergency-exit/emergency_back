@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 
 import java.util.Optional;
 
+import static com.velog.domain.board.QSeries.series;
 import static com.velog.domain.member.QMember.member;
 
 @RequiredArgsConstructor
@@ -29,6 +30,16 @@ public class MemberRepositoryCustomImpl implements MemberRepositoryCustom {
                 .where(member.id.eq(memberId))
                 .fetchOne()
         );
+    }
+
+    @Override
+    public Optional<Member> findSeriesByMemberId(Long memberId) {
+        return Optional.ofNullable(queryFactory
+                .selectFrom(member)
+                .leftJoin(member.seriesList, series).fetchJoin()
+                .where(
+                        member.id.eq(memberId)
+                ).fetchOne());
     }
 
 }

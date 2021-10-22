@@ -1,5 +1,6 @@
 package com.velog.dto.board.response;
 
+import com.velog.domain.board.Series;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -15,8 +16,8 @@ public class SeriesResponse {
         this.seriesName = seriesName;
     }
 
-    public static SeriesResponse of(Long seriesId, String seriesName) {
-        return new SeriesResponse(seriesId, seriesName);
+    public static SeriesResponse of(Series series) {
+        return new SeriesResponse(series.getId(), series.getSeriesName());
     }
 
 }

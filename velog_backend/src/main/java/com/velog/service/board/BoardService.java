@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -30,7 +31,7 @@ public class BoardService {
     public SeriesResponse createSeries(BoardRequest.CreateSeries request, String email) {
         Member member = MemberServiceUtils.findMemberByEmail(memberRepository, email);
         Series series = member.addSeries(request.getSeriesName());
-        return SeriesResponse.of(series.getId(), series.getSeriesName());
+        return SeriesResponse.of(series);
     }
 
     @Transactional
@@ -76,6 +77,13 @@ public class BoardService {
         Member member = memberRepository.findMemberById(memberId)
                 .orElseThrow(() -> new NotFoundException(String.format("%s는 존재하지 않는 유저입니다.", memberId)));
         return BoardInfoWithHashTagResponse.of(boardWithHashTag, member);
+    }
+
+    @Transactional
+    public List<SeriesResponse> retrieveSeries(Long memberId) {
+        Member member = memberRepository.findSeriesByMemberId(memberId)
+                .orElseThrow(() -> new NotFoundException(String.format("존재하지 않는 멤버입니다.", memberId)));
+        return member.getSeriesList().stream().map(SeriesResponse::of).collect(Collectors.toList());
     }
 
 }

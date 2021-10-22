@@ -11,6 +11,7 @@ create table board
     like_count          int         not null,
     member_id           bigint null,
     series_id           bigint null,
+    delete_date   datetime(6) null,
     title               varchar(50) not null
 );
 
@@ -24,6 +25,7 @@ create table board_hash_tag
     hash_tag      varchar(50) not null,
     member_id     bigint      not null,
     board_id      bigint      not null,
+    delete_date   datetime(6) null,
     constraint board_hash_tag_board_id_fk
         foreign key (board_id) references board (id)
 );
@@ -37,6 +39,7 @@ create table board_like
     modified_date datetime(6) null,
     member_id     bigint null,
     board_id      bigint not null,
+    delete_date   datetime(6) null,
     foreign key (board_id) references board (id)
 );
 
@@ -54,6 +57,7 @@ create table member
     password      varchar(255) null,
     provider      varchar(255) null,
     velog_name    varchar(255) null,
+    delete_date   datetime(6) null,
     unique (email)
 );
 
@@ -66,6 +70,7 @@ create table series
     modified_date datetime(6) null,
     series_name   varchar(255) not null,
     member_id     bigint       not null,
+    delete_date   datetime(6) null,
     constraint series_member_id_fk
         foreign key (member_id) references member (id)
 );

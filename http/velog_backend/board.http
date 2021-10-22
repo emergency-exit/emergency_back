@@ -6,6 +6,10 @@ Authorization: {{AUTH}}
   "seriesName": "하하"
 }
 
+### 시리즈 리스트
+GET {{host_api}}/api/v1/series
+Authorization: {{AUTH}}
+
 ### 게시글 생성
 POST {{host_api}}/api/v1/board
 Content-Type: application/json

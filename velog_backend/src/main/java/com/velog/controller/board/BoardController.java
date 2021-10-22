@@ -28,6 +28,12 @@ public class BoardController {
         return ApiResponse.success(boardService.createSeries(request, principalDetails.getMember().getEmail().getEmail()));
     }
 
+    @ApiOperation(value = "시리즈 리스트", notes = "시리즈 리스트")
+    @GetMapping("/api/v1/series")
+    public ApiResponse<List<SeriesResponse>> retrieveSeries(@AuthenticationPrincipal PrincipalDetails principalDetails) {
+        return ApiResponse.success(boardService.retrieveSeries(principalDetails.getMember().getId()));
+    }
+
     @ApiOperation(value = "게시글 생성", notes = "게시글 생성")
     @PostMapping("/api/v1/board")
     public ApiResponse<BoardInfoResponse> createBoard(@Valid @RequestBody BoardRequest.CreateBoard request, @AuthenticationPrincipal PrincipalDetails principalDetails) {

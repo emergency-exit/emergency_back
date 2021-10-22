@@ -10,4 +10,6 @@ public interface MemberRepositoryCustom {
 
     Optional<Member> findMemberById(Long memberId);
 
+    Optional<Member> findSeriesByMemberId(Long memberId);
+
 }

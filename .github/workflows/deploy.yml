@@ -25,10 +25,10 @@ jobs:
           RESOURCE_FILE: velog_backend/src/main/resources/auth.yml
         run: |
           touch $RESOURCE_FILE
-          echo "kakao.auth.client_key=$KAKAO_AUTH_CLIENT_KEY \
-                kakao.auth.grant_type=$KAKAO_AUTH_GRANT_TYPE \
-                kakao.auth.url=$KAKAO_AUTH_URL \
-                kakao.auth.user_info_url=$KAKAO_AUTH_USER_INFO_URL" >> $RESOURCE_FILE
+          echo "kakao.auth.client_key: $KAKAO_AUTH_CLIENT_KEY \
+                kakao.auth.grant_type: $KAKAO_AUTH_GRANT_TYPE \
+                kakao.auth.url: $KAKAO_AUTH_URL \
+                kakao.auth.user_info_url: $KAKAO_AUTH_USER_INFO_URL" >> $RESOURCE_FILE
 
       - name: Create credentials.yml file
         env:
@@ -37,8 +37,8 @@ jobs:
           RESOURCE_FILE: velog_backend/src/main/resources/credentials.yml
         run: |
           touch $RESOURCE_FILE
-          echo "cloud.aws.credentials.accessKey=$CLOUD_AWS_CREDENTIALS_ACCESS_KEY \
-                cloud.aws.credentials.secretKey=$CLOUD_AWS_CREDENTIALS_SECRET_KEY" >> $RESOURCE_FILE
+          echo "cloud.aws.credentials.accessKey: $CLOUD_AWS_CREDENTIALS_ACCESS_KEY \
+                cloud.aws.credentials.secretKey: $CLOUD_AWS_CREDENTIALS_SECRET_KEY" >> $RESOURCE_FILE
 
       - name: Create jwt.properties file
         env:
@@ -56,12 +56,12 @@ jobs:
           RESOURCE_FILE: velog_domain/src/main/resources/rds.yml
         run: |
           touch $RESOURCE_FILE
-          echo "spring.config.activate.on-profile=prod
-                spring.datasource.hikari.jdbc-url=$RDS_URL \
-                spring.datasource.hikari.driver-class-name=org.mariadb.jdbc.Driver \
-                spring.datasource.hikari.username=$RDS_USERNAME \
-                spring.datasource.hikari.password=$RDS_PASSWORD \
-                spring.jpa.database-platform= org.hibernate.dialect.MariaDB103Dialect" >> $RESOURCE_FILE
+          echo "spring.config.activate.on-profile: prod
+                spring.datasource.hikari.jdbc-url: $RDS_URL \
+                spring.datasource.hikari.driver-class-name: org.mariadb.jdbc.Driver \
+                spring.datasource.hikari.username: $RDS_USERNAME \
+                spring.datasource.hikari.password: $RDS_PASSWORD \
+                spring.jpa.database-platform: org.hibernate.dialect.MariaDB103Dialect" >> $RESOURCE_FILE
 
       - name: Set up JDK 11
         uses: actions/setup-java@v1
