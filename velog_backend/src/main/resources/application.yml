@@ -12,19 +12,6 @@ spring:
       - jwt.properties
       - credentials.yml
       - auth.yml
-  datasource:
-    url: jdbc:mariadb://velog.cqa7rhjwuoqr.ap-northeast-2.rds.amazonaws.com/cavel
-    driver-class-name: org.mariadb.jdbc.Driver
-    username: root
-    password: 147asdfg
-  jpa:
-    database-platform: org.hibernate.dialect.MariaDB103Dialect
-    hibernate:
-      ddl-auto: update
-  flyway:
-    enabled: false
-    baseline-version: 0
-    baseline-on-migrate: true
 
 logging:
   level:

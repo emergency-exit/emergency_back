@@ -57,11 +57,11 @@ jobs:
         run: |
           touch $RESOURCE_FILE
           echo "spring.datasource.url=$RDS_URL \
-                spring.datasource.driver-class-name=org.mariadb.jdbc.Driver \
+                spring.datasource.driverClassName=org.mariadb.jdbc.Driver \
                 spring.datasource.username=$RDS_USERNAME \
                 spring.datasource.password=$RDS_PASSWORD \
-                spring.jpa.database-platform=org.hibernate.dialect.MariaDB103Dialect
-                spring.jpa.hibernate.ddl-auto=update \
+                spring.jpa.databasePlatform=org.hibernate.dialect.MariaDB103Dialect
+                spring.jpa.hibernate.ddlAuto=update \
                 spring.flyway.enabled=false" >> $RESOURCE_FILE
 
       - name: Set up JDK 11
