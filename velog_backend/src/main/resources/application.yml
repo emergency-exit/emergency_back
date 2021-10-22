@@ -9,9 +9,9 @@ spring:
       - application-domain.yml
       - aws.yml
       - jwt.properties
-      - credentials.properties
-      - auth.properties
-      - rds.properties
+      - credentials.yml
+      - auth.yml
+      - rds.yml
 
 logging:
   level:
