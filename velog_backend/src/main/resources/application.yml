@@ -11,7 +11,7 @@ spring:
       - aws.yml
       - credentials.yml
       - auth.yml
-      - rds.yml
+      - rds.properties
 
 logging:
   level:

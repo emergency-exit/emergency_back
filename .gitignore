@@ -39,6 +39,7 @@ jwt.properties
 credentials.yml
 auth.yml
 rds.yml
+rds.properties
 logs
 
 api.html
