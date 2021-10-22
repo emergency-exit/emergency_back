@@ -23,17 +23,4 @@ spring:
     baseline-version: 0
     baseline-on-migrate: true
 
----
-spring:
-  config:
-    activate:
-      on-profile: dev
-  jpa:
-    hibernate:
-      ddl-auto: update
-  flyway:
-    baseline-version: 0
-    baseline-on-migrate: true
-    enabled: false
-
 
