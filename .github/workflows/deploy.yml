@@ -37,8 +37,8 @@ jobs:
           RESOURCE_FILE: velog_backend/src/main/resources/credentials.properties
         run: |
           touch $RESOURCE_FILE
-          echo "cloud.aws.credentials.accessKey=$CLOUD_AWS_CREDENTIALS_ACCESS_KEY \
-                cloud.aws.credentials.secretKey=$CLOUD_AWS_CREDENTIALS_SECRET_KEY" >> $RESOURCE_FILE
+          echo "cloud.aws.credentials.access_key=$CLOUD_AWS_CREDENTIALS_ACCESS_KEY \
+                cloud.aws.credentials.secret_key=$CLOUD_AWS_CREDENTIALS_SECRET_KEY" >> $RESOURCE_FILE
 
       - name: Create jwt.properties file
         env:
