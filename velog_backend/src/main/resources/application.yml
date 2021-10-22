@@ -7,7 +7,7 @@ spring:
     ### application-aaa를 사용할 필요가 없어짐
     import:
       - application-domain.yml
-      - jwt.yml
+      - jwt.properties
       - aws.yml
       - credentials.yml
       - auth.yml
