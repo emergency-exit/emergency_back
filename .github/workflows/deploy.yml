@@ -16,29 +16,29 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Create auth.yml file
+      - name: Create auth.properties file
         env:
           KAKAO_AUTH_CLIENT_KEY: ${{ secrets.KAKAO_AUTH_CLIENT_KEY }}
           KAKAO_AUTH_GRANT_TYPE: ${{ secrets.KAKAO_AUTH_GRANT_TYPE }}
           KAKAO_AUTH_URL: ${{ secrets.KAKAO_AUTH_URL }}
           KAKAO_AUTH_USER_INFO_URL: ${{ secrets.KAKAO_AUTH_USER_INFO_URL }}
-          RESOURCE_FILE: velog_backend/src/main/resources/auth.yml
+          RESOURCE_FILE: velog_backend/src/main/resources/auth.properties
         run: |
           touch $RESOURCE_FILE
-          echo "kakao.auth.client_key: $KAKAO_AUTH_CLIENT_KEY \
-                kakao.auth.grant_type: $KAKAO_AUTH_GRANT_TYPE \
-                kakao.auth.url: $KAKAO_AUTH_URL \
-                kakao.auth.user_info_url: $KAKAO_AUTH_USER_INFO_URL" >> $RESOURCE_FILE
+          echo "kakao.auth.client_key=$KAKAO_AUTH_CLIENT_KEY \
+                kakao.auth.grant_type=$KAKAO_AUTH_GRANT_TYPE \
+                kakao.auth.url=$KAKAO_AUTH_URL \
+                kakao.auth.user_info_url=$KAKAO_AUTH_USER_INFO_URL" >> $RESOURCE_FILE
 
-      - name: Create credentials.yml file
+      - name: Create credentials.properties file
         env:
           CLOUD_AWS_CREDENTIALS_ACCESS_KEY: ${{ secrets.CLOUD_AWS_CREDENTIALS_ACCESS_KEY }}
           CLOUD_AWS_CREDENTIALS_SECRET_KEY: ${{ secrets.CLOUD_AWS_CREDENTIALS_SECRET_KEY }}
-          RESOURCE_FILE: velog_backend/src/main/resources/credentials.yml
+          RESOURCE_FILE: velog_backend/src/main/resources/credentials.properties
         run: |
           touch $RESOURCE_FILE
-          echo "cloud.aws.credentials.accessKey: $CLOUD_AWS_CREDENTIALS_ACCESS_KEY \
-                cloud.aws.credentials.secretKey: $CLOUD_AWS_CREDENTIALS_SECRET_KEY" >> $RESOURCE_FILE
+          echo "cloud.aws.credentials.accessKey=$CLOUD_AWS_CREDENTIALS_ACCESS_KEY \
+                cloud.aws.credentials.secretKey=$CLOUD_AWS_CREDENTIALS_SECRET_KEY" >> $RESOURCE_FILE
 
       - name: Create jwt.properties file
         env:

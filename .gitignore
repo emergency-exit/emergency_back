@@ -37,7 +37,9 @@ generated/
 jwt.yml
 jwt.properties
 credentials.yml
+credentials.properties
 auth.yml
+auth.properties
 rds.yml
 rds.properties
 logs
