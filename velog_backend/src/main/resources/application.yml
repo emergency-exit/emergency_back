@@ -7,7 +7,6 @@ spring:
       on-profile: local, dev
     ### application-aaa를 사용할 필요가 없어짐
     import:
-      - application-domain.yml
       - aws.yml
       - jwt.properties
       - credentials.properties
