@@ -13,6 +13,9 @@ name: deploy to ec2
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      DB_USERNAME: ${{ secrets.RDS_USERNAME }}
+      DB_PASSWORD: ${{ secrets.RDS_PASSWORD }}
     steps:
       - uses: actions/checkout@v2
 
