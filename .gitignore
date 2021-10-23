@@ -43,8 +43,8 @@ auth.properties
 rds.yml
 rds.properties
 logs
-application-dev.properties
-application-dev.yml
+#application-dev.properties
+#application-dev.yml
 
 api.html
 api-member.html
