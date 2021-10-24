@@ -1,5 +1,6 @@
 package com.velog.config.security;
 
+import com.velog.config.exception.ExceptionHandlerFilter;
 import com.velog.config.jwt.JwtAuthenticationFilter;
 import com.velog.config.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
@@ -56,7 +57,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().permitAll()
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
-                        UsernamePasswordAuthenticationFilter.class);
+                        UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new ExceptionHandlerFilter(), JwtAuthenticationFilter.class);
     }
 
 }

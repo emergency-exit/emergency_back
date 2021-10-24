@@ -8,10 +8,15 @@ import com.velog.exception.ValidationException;
 import com.velog.exception.errorCode.ErrorCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.BindException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import java.util.Objects;
+
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
 
 @Slf4j
 @RestControllerAdvice
@@ -51,6 +56,13 @@ public class ExceptionControllerAdvice {
         log.error(e.getMessage(), e);
         log.error("e-----------------------" + e.getBindingResult());
         return ErrorResponse.error(ErrorCode.VALIDATION_EXCEPTION, e.getBindingResult().getAllErrors().get(0).getDefaultMessage());
+    }
+
+    @ExceptionHandler(BindException.class)
+    @ResponseStatus(BAD_REQUEST)
+    protected ErrorResponse handleBindException(BindException bindException) {
+        log.error(bindException.getMessage());
+        return ErrorResponse.error(ErrorCode.VALIDATION_EXCEPTION, Objects.requireNonNull(bindException.getFieldError()).getField());
     }
 
 }

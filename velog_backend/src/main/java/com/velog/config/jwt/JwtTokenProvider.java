@@ -1,6 +1,7 @@
 package com.velog.config.jwt;
 
 import com.velog.config.prefix.JwtTokenComponent;
+import com.velog.exception.ValidationException;
 import io.jsonwebtoken.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -47,8 +48,8 @@ public class JwtTokenProvider {
         try {
             Jws<Claims> claimsJws = Jwts.parser().setSigningKey(jwtTokenComponent.getSecret()).parseClaimsJws(token);
             return !claimsJws.getBody().getExpiration().before(new Date());
-        } catch (JwtException | IllegalStateException exception) {
-            return false;
+        } catch (Exception e) {
+            throw new ValidationException(String.format("유효하지 않은 (%s) 토큰입니다.", token));
         }
     }
 

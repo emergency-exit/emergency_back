@@ -39,6 +39,10 @@ Authorization: {{AUTH}}
   "description": "description"
 }
 
-### 내가 쓴 글 가져오기
-GET {{host_api}}/api/v1/myInfo/board/list?lastBoardId=3&size=2&period=LATEST
+### 내가 쓴 게시글 리스트 가져오기
+GET {{host_api}}/api/v1/myInfo/board/list?lastBoardId=3&size=1&period=LATEST
+Authorization: {{AUTH}}
+
+### 내가 쓴 게시글 리스트 가져오기
+GET {{host_api}}/api/v1/myInfo/board/detail/1
 Authorization: {{AUTH}}

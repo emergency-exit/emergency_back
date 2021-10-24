@@ -22,6 +22,8 @@ import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 
 import java.util.Arrays;
 
@@ -220,9 +222,15 @@ public class MemberControllerTest {
 
         String token = jwtTokenProvider.createToken(email);
 
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+        params.add("lastBoardId", board3.getId().toString());
+        params.add("size", "2");
+        params.add("period", "LATEST");
+
         // when
         final ResultActions resultActions = mockMvc.perform(
-                        get("/api/v1/myInfo/board/list?lastBoardId=3&size=2&period=LATEST")
+                        get("/api/v1/myInfo/board/list")
+                                .params(params)
                                 .header("Authorization", token)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .accept(MediaType.APPLICATION_JSON))

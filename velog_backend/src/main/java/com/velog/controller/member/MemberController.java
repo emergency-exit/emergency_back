@@ -55,7 +55,7 @@ public class MemberController {
 
     @ApiOperation(value = "내가 쓴 게시글리스트 가져오기", notes = "내가 쓴 게시글")
     @GetMapping("/api/v1/myInfo/board/list")
-    public ApiResponse<List<BoardRetrieveResponse>> retrieveMyBoard(BoardRequest.RetrieveBoardRequest request, @AuthenticationPrincipal PrincipalDetails principalDetails) {
+    public ApiResponse<List<BoardRetrieveResponse>> retrieveMyBoard(@Valid BoardRequest.RetrieveBoardRequest request, @AuthenticationPrincipal PrincipalDetails principalDetails) {
         List<BoardRetrieveResponse> boardRetrieveResponseList = boardService.retrieveBoard(request.getLastBoardId(), request.getSize(), request.getPeriod(), principalDetails.getMember().getId());
         return ApiResponse.success(boardRetrieveResponseList);
     }
