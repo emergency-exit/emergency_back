@@ -44,7 +44,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .httpBasic()
                 .disable()
                 .csrf()
-                .ignoringAntMatchers("/h2-console/**")
                 .ignoringAntMatchers("/docs/**")
                 .disable()
                 .sessionManagement()

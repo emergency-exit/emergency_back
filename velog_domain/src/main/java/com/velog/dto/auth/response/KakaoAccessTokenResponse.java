@@ -17,4 +17,17 @@ public class KakaoAccessTokenResponse {
     private String scope;
     private Integer refreshTokenExpiresIn;
 
+    public KakaoAccessTokenResponse(String accessToken, String tokenType, String refreshToken, Integer expiresIn, String scope, Integer refreshTokenExpiresIn) {
+        this.accessToken = accessToken;
+        this.tokenType = tokenType;
+        this.refreshToken = refreshToken;
+        this.expiresIn = expiresIn;
+        this.scope = scope;
+        this.refreshTokenExpiresIn = refreshTokenExpiresIn;
+    }
+
+    public static KakaoAccessTokenResponse of(String accessToken, String tokenType, String refreshToken, Integer expiresIn, String scope, Integer refreshTokenExpiresIn) {
+        return new KakaoAccessTokenResponse(accessToken, tokenType, refreshToken, expiresIn, scope, refreshTokenExpiresIn);
+    }
+
 }

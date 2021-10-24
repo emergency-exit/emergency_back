@@ -15,4 +15,13 @@ public class AuthRequest {
     @NotBlank
     private String redirectUri;
 
+    public AuthRequest(String code, String redirectUri) {
+        this.code = code;
+        this.redirectUri = redirectUri;
+    }
+
+    public static AuthRequest of(String code, String redirectUri) {
+        return new AuthRequest(code, redirectUri);
+    }
+
 }

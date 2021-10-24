@@ -5,6 +5,7 @@ import com.velog.domain.member.Password;
 import com.velog.domain.testObject.MemberCreator;
 import com.velog.dto.member.request.UpdateMemberRequest;
 import com.velog.enumData.ProviderType;
+import com.velog.exception.ConflictException;
 import com.velog.exception.NotFoundException;
 import com.velog.exception.ValidationException;
 import com.velog.domain.member.Member;
@@ -54,6 +55,22 @@ public class MemberServiceTest {
         List<Member> memberList = memberRepository.findAll();
         assertThat(memberList).hasSize(1);
         assertThat(memberList.get(0).getEmail().getEmail()).isEqualTo(email);
+    }
+
+    @Test
+    void 이미_존재하는_회원일경우_예외처리() {
+        // given
+        String email = "tnswh2023@naver.com";
+        String password = "tnswh2023@";
+        String name = "tnswh";
+        Member member = MemberCreator.create(email, password);
+        memberRepository.save(member);
+        CreateMemberRequest request = new CreateMemberRequest(email, password, name, null, ProviderType.LOCAL);
+
+        // when & then
+        assertThatThrownBy(
+            () -> memberService.createMember(request)
+        ).isInstanceOf(ConflictException.class);
     }
 
     @Test

@@ -13,7 +13,7 @@ public interface BoardRepositoryCustom {
 
     Optional<Board> findBoardById(Long boardId);
 
-    Board getBoardWithHashTag(Long boardId);
+    Optional<Board> getBoardWithHashTag(Long boardId);
 
     Optional<Board> findBoardWithHashTagByIdAndMemberId(Long boardId, Long memberId);
 

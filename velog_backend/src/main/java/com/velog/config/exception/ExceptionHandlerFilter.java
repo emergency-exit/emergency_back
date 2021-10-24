@@ -1,14 +1,12 @@
 package com.velog.config.exception;
 
 import com.nimbusds.jose.shaded.json.JSONObject;
-import com.velog.exception.JwtException;
 import com.velog.exception.errorCode.ErrorCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -35,7 +33,7 @@ public class ExceptionHandlerFilter extends OncePerRequestFilter {
 
         JSONObject responseJson = new JSONObject();
         responseJson.put("code", ErrorCode.JWT_UNAUTHORIZED_EXCEPTION.getCode());
-        responseJson.put("message", ErrorCode.JWT_UNAUTHORIZED_EXCEPTION.getMessage());
+        responseJson.put("message", e.getMessage());
         responseJson.put("description", "유효하지 않은 토큰입니다.");
 
         response.getWriter().print(responseJson);

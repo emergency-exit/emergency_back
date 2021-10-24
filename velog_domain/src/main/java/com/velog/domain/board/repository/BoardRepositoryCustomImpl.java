@@ -4,8 +4,6 @@ import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.velog.domain.board.Board;
-import com.velog.domain.board.QBoardHashTag;
-import com.velog.domain.member.QMember;
 import com.velog.dto.board.response.BoardRetrieveResponse;
 import com.velog.enumData.BoardPeriod;
 import lombok.RequiredArgsConstructor;
@@ -64,14 +62,14 @@ public class BoardRepositoryCustomImpl implements BoardRepositoryCustom {
     }
 
     @Override
-    public Board getBoardWithHashTag(Long boardId) {
-        return queryFactory.selectFrom(board)
+    public Optional<Board> getBoardWithHashTag(Long boardId) {
+        return Optional.ofNullable(queryFactory.selectFrom(board)
                 .leftJoin(board.hashTagList, boardHashTag).fetchJoin()
                 .where(
                         board.id.eq(boardId),
                         board.isPrivate.eq(false)
                 )
-                .fetchOne();
+                .fetchOne());
     }
 
     @Override

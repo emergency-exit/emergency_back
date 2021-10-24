@@ -16,7 +16,7 @@ public class KaKaoUserInfoResponse {
         this.kakaoAccount = kakaoAccount;
     }
 
-    public static KaKaoUserInfoResponse save(String nickname, String profileImageUrl, String email) {
+    public static KaKaoUserInfoResponse of(String nickname, String profileImageUrl, String email) {
         KakaoProfile kakaoProfile = KakaoProfile.of(nickname, profileImageUrl);
         return new KaKaoUserInfoResponse(KakaoUserInfoAccount.of(kakaoProfile, email));
     }
