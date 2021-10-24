@@ -5,7 +5,9 @@ import com.velog.domain.board.BoardHashTag;
 import com.velog.domain.board.BoardLike;
 import com.velog.domain.board.repository.BoardHashTagRepository;
 import com.velog.domain.board.repository.BoardLikeRepository;
+import com.velog.dto.board.response.BoardInfoWithHashTagResponse;
 import com.velog.dto.board.response.BoardRetrieveResponse;
+import com.velog.dto.board.response.SeriesResponse;
 import com.velog.enumData.BoardPeriod;
 import com.velog.domain.board.Series;
 import com.velog.domain.board.repository.BoardRepository;
@@ -75,6 +77,78 @@ public class BoardServiceTest {
         // then
         List<Series> seriesList = seriesRepository.findAll();
         assertThat(seriesList).hasSize(1);
+        assertThat(seriesList.get(0).getSeriesName()).isEqualTo(request.getSeriesName());
+    }
+
+    @Test
+    void 이미_같은_이름이_존재하면_예외처리() {
+        // given
+        Member member = MemberCreator.create();
+        member.addSeries("자바");
+        memberRepository.save(member);
+
+        BoardRequest.CreateSeries request = new BoardRequest.CreateSeries("자바");
+
+        // when & then
+        assertThatThrownBy(
+            () -> boardService.createSeries(request, member.getEmail().getEmail())
+        ).isInstanceOf(ValidationException.class);
+    }
+
+    @Test
+    void 다른_유저가_가지고있는_시리즈_이름은_영향을_받지_않는다() {
+        // given
+        Member member = MemberCreator.create();
+        memberRepository.save(member);
+
+        Member member2 = MemberCreator.create("test@test.com", "test123$");
+        member2.addSeries("자바");
+        memberRepository.save(member2);
+
+        BoardRequest.CreateSeries request = new BoardRequest.CreateSeries("자바");
+
+        // when
+        boardService.createSeries(request, member.getEmail().getEmail());
+
+        // then
+        List<Series> seriesList = seriesRepository.findAll();
+        assertThat(seriesList).hasSize(2);
+        assertThat(seriesList.get(0).getSeriesName()).isEqualTo(request.getSeriesName());
+        assertThat(seriesList.get(1).getSeriesName()).isEqualTo(request.getSeriesName());
+    }
+
+    @Test
+    void 시리즈_리스트를_불러온다() {
+        // given
+        Member member = MemberCreator.create();
+        member.addSeries("자바");
+        member.addSeries("인프라");
+        memberRepository.save(member);
+
+        // when
+        List<SeriesResponse> seriesResponses = boardService.retrieveSeries(member.getId());
+
+        // then
+        List<Series> seriesList = seriesRepository.findAll();
+        assertThat(seriesList).hasSize(2);
+        assertThat(seriesResponses).hasSize(2);
+        assertThat(seriesResponses.get(0).getSeriesName()).isEqualTo("자바");
+        assertThat(seriesResponses.get(1).getSeriesName()).isEqualTo("인프라");
+    }
+
+    @Test
+    void 시리즈_리스트가_없다면_빈배열을_반환한다() {
+        // given
+        Member member = MemberCreator.create();
+        memberRepository.save(member);
+
+        // when
+        List<SeriesResponse> seriesResponses = boardService.retrieveSeries(member.getId());
+
+        // then
+        List<Series> seriesList = seriesRepository.findAll();
+        assertThat(seriesList).isEmpty();
+        assertThat(seriesResponses).isEmpty();
     }
 
     @Test
@@ -187,6 +261,25 @@ public class BoardServiceTest {
     }
 
     // TODO: 2021-08-15 createdDate 기준으로 오늘, 이번주, 이번달, 이번년도 게시글 가지고 오기 - test짜야함
+
+    @Test
+    void 내가_쓴_게시글_리스트를_가져온다() {
+        // given
+        Member member = MemberCreator.create();
+        memberRepository.save(member);
+
+        Board board1 = BoardCreator.create("title1", member.getId());
+        board1.addHashTag(Arrays.asList("자바", "스프링"), member.getId());
+        boardRepository.save(board1);
+
+        // when
+        BoardInfoWithHashTagResponse response = boardService.getMyBoard(board1.getId(), member.getId());
+
+        // then
+        assertThat(response.getHashTagList()).hasSize(2);
+        assertThat(response.getBoardInfoResponse().getTitle()).isEqualTo(board1.getTitle());
+        assertThat(response.getMemberInfoResponse().getEmail()).isEqualTo(member.getEmail().getEmail());
+    }
 
     @Test
     void 게시물을_좋아요한다() {

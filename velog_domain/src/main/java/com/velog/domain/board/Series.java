@@ -32,4 +32,8 @@ public class Series extends BaseTimeEntity {
         return new Series(member, seriesName);
     }
 
+    public boolean isSameEntity(String seriesName) {
+        return this.seriesName.equals(seriesName);
+    }
+
 }

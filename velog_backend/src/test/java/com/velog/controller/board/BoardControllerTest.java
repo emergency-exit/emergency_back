@@ -4,7 +4,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.velog.controller.MemberSetUp;
 import com.velog.domain.board.Board;
 import com.velog.domain.board.repository.BoardRepository;
+import com.velog.domain.member.Member;
 import com.velog.domain.testObject.BoardCreator;
+import com.velog.domain.testObject.MemberCreator;
 import com.velog.dto.board.request.BoardRequest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -73,9 +75,30 @@ public class BoardControllerTest extends MemberSetUp {
                         ),
                         responseFields(
                                 fieldWithPath("code").description("success"),
-                                fieldWithPath("data").description("data"),
-                                fieldWithPath("data.seriesId").description("시리즈 아이디"),
-                                fieldWithPath("data.seriesName").description("시리즈 이름")
+                                fieldWithPath("data").description("data")
+                        )
+                ));
+
+        // then
+        resultActions.andExpect(status().isOk());
+    }
+
+    @Test
+    void 블로그_시리즈_리스트_불러오기() throws Exception {
+        // when
+        final ResultActions resultActions = mockMvc.perform(
+                        get("/api/v1/series")
+                                .header("Authorization", token)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andDo(document("board/seriesList",
+                        getDocumentRequest(),
+                        getDocumentResponse(),
+                        responseFields(
+                                fieldWithPath("code").description("success"),
+                                fieldWithPath("data[].seriesId").description("시리즈 아이디"),
+                                fieldWithPath("data[].seriesName").description("시리즈 이름")
                         )
                 ));
 

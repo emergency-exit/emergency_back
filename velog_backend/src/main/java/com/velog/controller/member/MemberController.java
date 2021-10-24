@@ -53,7 +53,7 @@ public class MemberController {
         return ApiResponse.success(memberService.updateMember(request, principalDetails.getMember().getEmail().getEmail()));
     }
 
-    @ApiOperation(value = "내가 쓴 게시글 가져오기", notes = "내가 쓴 게시글")
+    @ApiOperation(value = "내가 쓴 게시글리스트 가져오기", notes = "내가 쓴 게시글")
     @GetMapping("/api/v1/myInfo/board/list")
     public ApiResponse<List<BoardRetrieveResponse>> retrieveMyBoard(BoardRequest.RetrieveBoardRequest request, @AuthenticationPrincipal PrincipalDetails principalDetails) {
         List<BoardRetrieveResponse> boardRetrieveResponseList = boardService.retrieveBoard(request.getLastBoardId(), request.getSize(), request.getPeriod(), principalDetails.getMember().getId());
