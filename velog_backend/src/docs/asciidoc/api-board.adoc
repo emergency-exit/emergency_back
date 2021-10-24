@@ -26,6 +26,10 @@ include::{snippets}/board/series/request-fields.adoc[]
 Response
 include::{snippets}/board/series/http-response.adoc[]
 
+[[resources_series_list]]
+=== 시리즈 리스트 불러오기
+게시글 관련 API입니다.
+
 [[resources_board_create]]
 === Board Create
 

@@ -24,8 +24,9 @@ public class BoardController {
 
     @ApiOperation(value = "시리즈 생성", notes = "시리즈 생성")
     @PostMapping("/api/v1/series")
-    public ApiResponse<SeriesResponse> createSeries(@RequestBody BoardRequest.CreateSeries request, @AuthenticationPrincipal PrincipalDetails principalDetails) {
-        return ApiResponse.success(boardService.createSeries(request, principalDetails.getMember().getEmail().getEmail()));
+    public ApiResponse<String> createSeries(@RequestBody BoardRequest.CreateSeries request, @AuthenticationPrincipal PrincipalDetails principalDetails) {
+        boardService.createSeries(request, principalDetails.getMember().getEmail().getEmail());
+        return ApiResponse.OK;
     }
 
     @ApiOperation(value = "시리즈 리스트", notes = "시리즈 리스트")

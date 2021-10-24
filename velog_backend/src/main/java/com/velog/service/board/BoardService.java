@@ -1,7 +1,6 @@
 package com.velog.service.board;
 
 import com.velog.domain.board.Board;
-import com.velog.domain.board.Series;
 import com.velog.domain.board.repository.BoardRepository;
 import com.velog.domain.member.Member;
 import com.velog.domain.member.repository.MemberRepository;
@@ -28,10 +27,9 @@ public class BoardService {
     private final BoardRepository boardRepository;
 
     @Transactional
-    public SeriesResponse createSeries(BoardRequest.CreateSeries request, String email) {
+    public void createSeries(BoardRequest.CreateSeries request, String email) {
         Member member = MemberServiceUtils.findMemberByEmail(memberRepository, email);
-        Series series = member.addSeries(request.getSeriesName());
-        return SeriesResponse.of(series);
+        member.addSeries(request.getSeriesName());
     }
 
     @Transactional
@@ -79,10 +77,10 @@ public class BoardService {
         return BoardInfoWithHashTagResponse.of(boardWithHashTag, member);
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public List<SeriesResponse> retrieveSeries(Long memberId) {
         Member member = memberRepository.findSeriesByMemberId(memberId)
-                .orElseThrow(() -> new NotFoundException(String.format("존재하지 않는 멤버입니다.", memberId)));
+                .orElseThrow(() -> new NotFoundException(String.format("존재하지 않는 멤버 %s 입니다.", memberId)));
         return member.getSeriesList().stream().map(SeriesResponse::of).collect(Collectors.toList());
     }
 

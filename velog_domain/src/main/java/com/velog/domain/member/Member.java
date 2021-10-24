@@ -3,6 +3,7 @@ package com.velog.domain.member;
 import com.velog.domain.BaseTimeEntity;
 import com.velog.domain.board.Series;
 import com.velog.enumData.ProviderType;
+import com.velog.exception.ValidationException;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -64,10 +65,16 @@ public class Member extends BaseTimeEntity {
         this.velogName = velogName;
     }
 
-    public Series addSeries(String seriesName) {
+    public void addSeries(String seriesName) {
+        if (this.findSeriesByName(seriesName)) {
+            throw new ValidationException(String.format("이미 존재하는 시리즈 (%s) 입니다.", seriesName));
+        }
         Series series = Series.of(this, seriesName);
         this.seriesList.add(series);
-        return series;
+    }
+
+    private boolean findSeriesByName(String seriesName) {
+        return seriesList.stream().anyMatch(series -> series.isSameEntity(seriesName));
     }
 
 }

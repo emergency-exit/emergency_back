@@ -30,6 +30,7 @@ public class MemberSetUp {
         String email = "tnswh2023@gmail.com";
         token = jwtTokenProvider.createToken(email);
         member = MemberCreator.create(email, passwordEncoder.encode("tnswh2023@"));
+        member.addSeries("자바");
         memberRepository.save(member);
     }
 
