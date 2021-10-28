@@ -1,0 +1,33 @@
+POST {{host_api}}/api/v1/board/comment
+Content-Type: application/json
+Authorization: {{AUTH}}
+
+{
+  "boardId": 1,
+  "content": "댓글입니다.",
+  "parentCommentId": null
+}
+
+### 부모 댓글이 있을 경우
+POST {{host_api}}/api/v1/board/comment
+Content-Type: application/json
+Authorization: {{AUTH}}
+
+{
+  "boardId": 1,
+  "content": "댓글입니다.",
+  "parentCommentId": 1
+}
+
+### 댓글 수정
+POST {{host_api}}/api/v1/board/comment/update
+Content-Type: application/json
+Authorization: {{AUTH}}
+
+{
+  "boardCommentId": 1,
+  "content": "댓글 수정입니다."
+}
+
+### 댓글 조회
+GET {{host_api}}/board/comment/list/1

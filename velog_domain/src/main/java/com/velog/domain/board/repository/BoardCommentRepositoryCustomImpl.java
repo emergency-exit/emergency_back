@@ -28,9 +28,11 @@ public class BoardCommentRepositoryCustomImpl implements BoardCommentRepositoryC
     @Override
     public List<BoardComment> findBoardCommentByBoardId(Long boardId) {
         return queryFactory.selectFrom(boardComment)
+                .leftJoin(boardComment.childComments, new QBoardComment("child")).fetchJoin()
                 .where(
                         boardComment.deleteDate.isNull(),
-                        boardComment.boardId.eq(boardId)
+                        boardComment.boardId.eq(boardId),
+                        boardComment.parentComment.isNull()
                 )
                 .fetch();
     }

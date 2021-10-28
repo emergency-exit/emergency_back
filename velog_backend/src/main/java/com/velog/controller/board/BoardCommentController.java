@@ -20,7 +20,7 @@ public class BoardCommentController {
 
     private final BoardCommentService boardCommentService;
 
-    @ApiOperation(value = "게시글 댓글 생성", notes = "게시글 댓글 생성")
+    @ApiOperation(value = "게시글 댓글 생성", notes = "게시글 댓글 생성_depth는 1까지 입니다.")
     @PostMapping("/api/v1/board/comment")
     public ApiResponse<BoardCommentInfoResponse> createBoardComment(@RequestBody @Valid BoardCommentRequest.CreateBoardComment request, @AuthenticationPrincipal PrincipalDetails principalDetails) {
         return ApiResponse.success(boardCommentService.createBoardComment(request, principalDetails.getMember()));

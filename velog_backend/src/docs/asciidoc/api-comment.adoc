@@ -1,0 +1,60 @@
+= RESTful velog API Guide
+velog;
+:doctype: velog
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 4
+:sectlinks:
+:operation-curl-request-title: Example request
+:operation-http-response-title: Example response
+
+=== 게시글 댓글 관련 API입니다.
+
+[[resources_board_comment_create]]
+=== Board Comment Create
+
+Request HTTP Example
+include::{snippets}/board/comment/create/http-request.adoc[]
+
+Request Fields
+include::{snippets}/board/comment/create/request-fields.adoc[]
+
+Response
+include::{snippets}/board/comment/create/http-response.adoc[]
+
+[[resources_board_comment_update]]
+=== Board Comment Update
+
+Request HTTP Example
+include::{snippets}/board/comment/update/http-request.adoc[]
+
+Request Fields
+include::{snippets}/board/comment/update/request-fields.adoc[]
+
+Response
+include::{snippets}/board/comment/update/http-response.adoc[]
+
+[[resources_board_comment_list1]]
+=== Get Board Comments 예시1)
+
+Request HTTP Example
+include::{snippets}/board/comment/list1/http-request.adoc[]
+
+Request Fields
+include::{snippets}/board/comment/list1/path-parameters.adoc[]
+
+Response
+include::{snippets}/board/comment/list1/http-response.adoc[]
+
+[[resources_board_comment_list2]]
+=== Get Board Comments 예시2)
+
+Request HTTP Example
+include::{snippets}/board/comment/list2/http-request.adoc[]
+
+Request Fields
+include::{snippets}/board/comment/list2/path-parameters.adoc[]
+
+Response
+include::{snippets}/board/comment/list2/http-response.adoc[]
