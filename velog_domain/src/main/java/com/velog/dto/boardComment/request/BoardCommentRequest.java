@@ -1,6 +1,5 @@
 package com.velog.dto.boardComment.request;
 
-import com.velog.domain.board.BoardComment;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -13,18 +12,20 @@ public class BoardCommentRequest {
 
         private Long boardId;
         private String content;
+        private Long parentCommentId;
 
-        public CreateBoardComment(Long boardId, String content) {
+        public CreateBoardComment(Long boardId, String content, Long parentCommentId) {
             this.boardId = boardId;
             this.content = content;
+            this.parentCommentId = parentCommentId;
         }
 
-        public BoardComment toEntity(Long memberId) {
-            return new BoardComment(boardId, memberId, content);
+        public static CreateBoardComment rootTestInstance(Long boardId, String content) {
+            return new CreateBoardComment(boardId, content, null);
         }
 
-        public static CreateBoardComment testInstance(Long boardId, String content) {
-            return new CreateBoardComment(boardId, content);
+        public static CreateBoardComment childTestInstance(Long boardId, String content, Long parentCommentId) {
+            return new CreateBoardComment(boardId, content, parentCommentId);
         }
 
     }

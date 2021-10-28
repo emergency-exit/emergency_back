@@ -29,11 +29,16 @@ public class BoardCommentService {
 
     @Transactional
     public BoardCommentInfoResponse createBoardComment(BoardCommentRequest.CreateBoardComment request, Member member) {
-        Board board = boardRepository.findBoardById(request.getBoardId())
+        boardRepository.findBoardById(request.getBoardId())
                 .orElseThrow(() -> new NotFoundException(String.format("%s는 존재하지 않는 게시글입니다.", request.getBoardId())));
-        BoardComment boardComment = boardCommentRepository.save(request.toEntity(member.getId()));
-        MemberInfoResponse memberInfoResponse = MemberInfoResponse.of(member);
-        return BoardCommentInfoResponse.of(board.getId(), boardComment.getContent(), memberInfoResponse);
+        if (request.getParentCommentId() != null) {
+            BoardComment boardComment = boardCommentRepository.findBoardCommentById(request.getParentCommentId())
+                    .orElseThrow(() -> new NotFoundException(String.format("존재하지 않는 댓글 (%s) 입니다.", request.getParentCommentId())));
+            BoardComment boardChildComment = boardComment.addChildComment(member.getId(), request.getContent(), request.getBoardId());
+            return BoardCommentInfoResponse.of(boardChildComment, MemberInfoResponse.of(member));
+        }
+        BoardComment boardComment = boardCommentRepository.save(BoardComment.newRootComment(request.getBoardId(), request.getContent(), member.getId()));
+        return BoardCommentInfoResponse.of(boardComment, MemberInfoResponse.of(member));
     }
 
     @Transactional
@@ -42,14 +47,15 @@ public class BoardCommentService {
                 .orElseThrow(() -> new NotFoundException(String.format("%s는 존재하지 않는 댓글입니다.", request.getBoardCommentId())));
         boardComment.updateContent(request.getContent());
         MemberInfoResponse memberInfoResponse = MemberInfoResponse.of(member);
-        return BoardCommentInfoResponse.of(boardComment.getBoardId(), request.getContent(), memberInfoResponse);
+        return BoardCommentInfoResponse.of(boardComment, memberInfoResponse);
     }
 
+    @Transactional
     public List<BoardCommentInfoResponse> retrieveBoardComment(Long boardId) {
-        Board board = boardRepository.findBoardById(boardId)
+        boardRepository.findBoardById(boardId)
                 .orElseThrow(() -> new NotFoundException(String.format("%s는 존재하지 않는 게시글입니다.", boardId)));
         List<BoardComment> boardCommentList = boardCommentRepository.findBoardCommentByBoardId(boardId);
-        return boardCommentList.stream().map(boardComment -> BoardCommentInfoResponse.of(boardComment.getBoardId(), boardComment.getContent(),
+        return boardCommentList.stream().map(boardComment -> BoardCommentInfoResponse.of(boardComment,
                 getMemberInfoResponse(boardComment.getMemberId())))
                 .collect(Collectors.toList());
     }
