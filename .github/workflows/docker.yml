@@ -5,7 +5,7 @@ on:
     branches:
       - feat/docker
 env:
-  DOCKER_IMAGE: ghcr.io/{Repository author}/{Repository name}
+  DOCKER_IMAGE: ghcr.io/tnswh2023/cavel
   VERSION: ${{ github.sha }}
 
 jobs:
