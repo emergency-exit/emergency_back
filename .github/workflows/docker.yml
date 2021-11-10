@@ -3,7 +3,7 @@ name: velog docker cd
 on:
   push:
     branches:
-      - docker
+      - feat/docker
 env:
   DOCKER_IMAGE: ghcr.io/{Repository author}/{Repository name}
   VERSION: ${{ github.sha }}
