@@ -1,12 +1,14 @@
 FROM adoptopenjdk/openjdk11
 
-ENV APP_PATH = /usr/src/app
+COPY . velog/app
 
-WORKDIR $APP_PATH
+WORKDIR velog/app
 
-COPY . $APP_PATH
+RUN chmod +x gradlew
+RUN ./gradlew clean bootJar
 
-RUN $APP_PATH/gradlew clean bootJar
+EXPOSE 8080
 
-ENTRYPOINT ["java", "-jar", "velog_backend/build/libs/velog_backend-0.0.1-SNAPSHOT.jar"]
+ENTRYPOINT ["java", "-jar", "velog_backend/build/libs/velog_backend-0.0.1-SNAPSHOT.jar", "--spring.profiles.active=local"]
+
 
