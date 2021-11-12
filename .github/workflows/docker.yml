@@ -14,43 +14,115 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Set up docker buildx
-        id: buildx
-        uses: docker/setup-buildx-action@v1
-      - name: Cache docker layers
-        uses: actions/cache@v2
-        with:
-          path: /tmp/.buildx-cache
-          key: ${{ runner.os }}-buildx-${{ env.VERSION }}
-          restore-keys: |
-            ${{ runner.os }}-buildx-
+
+      - name: Create auth.properties file
+        env:
+          KAKAO_AUTH_CLIENT_KEY: ${{ secrets.KAKAO_AUTH_CLIENT_KEY }}
+          KAKAO_AUTH_GRANT_TYPE: ${{ secrets.KAKAO_AUTH_GRANT_TYPE }}
+          KAKAO_AUTH_URL: ${{ secrets.KAKAO_AUTH_URL }}
+          KAKAO_AUTH_USER_INFO_URL: ${{ secrets.KAKAO_AUTH_USER_INFO_URL }}
+          RESOURCE_FILE: velog_backend/src/main/resources/auth.properties
+        run: |
+          touch $RESOURCE_FILE
+          echo "kakao.auth.client_key=$KAKAO_AUTH_CLIENT_KEY \
+             kakao.auth.grant_type=$KAKAO_AUTH_GRANT_TYPE \
+             kakao.auth.url=$KAKAO_AUTH_URL \
+             kakao.auth.user_info_url=$KAKAO_AUTH_USER_INFO_URL" >> $RESOURCE_FILE
+      - name: Create credentials.properties file
+        env:
+          CLOUD_AWS_CREDENTIALS_ACCESS_KEY: ${{ secrets.CLOUD_AWS_CREDENTIALS_ACCESS_KEY }}
+          CLOUD_AWS_CREDENTIALS_SECRET_KEY: ${{ secrets.CLOUD_AWS_CREDENTIALS_SECRET_KEY }}
+          RESOURCE_FILE: velog_backend/src/main/resources/credentials.properties
+        run: |
+          touch $RESOURCE_FILE
+          echo "cloud.aws.credentials.access_key=$CLOUD_AWS_CREDENTIALS_ACCESS_KEY \
+                cloud.aws.credentials.secret_key=$CLOUD_AWS_CREDENTIALS_SECRET_KEY" >> $RESOURCE_FILE
+
+      - name: Create jwt.properties file
+        env:
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          RESOURCE_FILE: velog_backend/src/main/resources/jwt.properties
+        run: |
+          touch $RESOURCE_FILE
+          echo "jwt.secret=$JWT_SECRET" >> $RESOURCE_FILE
+
       - name: Login to ghcr
         uses: docker/login-action@v1
         with:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GIT_TOKEN }}
-      - name: Build and push
-        id: docker_build
-        uses: docker/build-push-action@v2
+      - name: velog_backend build
+        env:
+          DOCKER_REGISTRY: ghcr.io/cavel
+          DOCKER_REPOSITORY: cavel-api
+          IMAGE_TAG: ${{ steps.docker-image-version.outputs.version }}
+        run: |
+          docker build -t $DOCKER_REGISTRY/$DOCKER_REPOSITORY:$IMAGE_TAG .
+          docker tag $DOCKER_REGISTRY/$DOCKER_REPOSITORY:$IMAGE_TAG $DOCKER_REGISTRY/$DOCKER_REPOSITORY:latest
+          docker push $DOCKER_REGISTRY/$DOCKER_REPOSITORY:$IMAGE_TAG
+          docker push $DOCKER_REGISTRY/$DOCKER_REPOSITORY:latest
+          echo -e "$DOCKER_REGISTRY/$DOCKER_REPOSITORY:latest"
+
+      - name: Zip deploy-docker.zip
+        run: zip -r deploy-docker.zip deploy-docker
+      - name: upload deploy-docker.zip
+        uses: actions/upload-artifact@v2
         with:
-          builder: ${{ steps.buildx.outputs.name }}
-          push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ env.DOCKER_IMAGE }}:${{ env.VERSION }}
+          name: deploy-docker.zip
+          path: deploy-docker.zip
+
+#      - name: Set up docker buildx
+#        id: buildx
+#        uses: docker/setup-buildx-action@v1
+#      - name: Cache docker layers
+#        uses: actions/cache@v2
+#        with:
+#          path: /tmp/.buildx-cache
+#          key: ${{ runner.os }}-buildx-${{ env.VERSION }}
+#          restore-keys: |
+#            ${{ runner.os }}-buildx-
+#      - name: Login to ghcr
+#        uses: docker/login-action@v1
+#        with:
+#          registry: ghcr.io
+#          username: ${{ github.repository_owner }}
+#          password: ${{ secrets.GIT_TOKEN }}
+#      - name: Build and push
+#        id: docker_build
+#        uses: docker/build-push-action@v2
+#        with:
+#          builder: ${{ steps.buildx.outputs.name }}
+#          push: ${{ github.event_name != 'pull_request' }}
+#          tags: ${{ env.DOCKER_IMAGE }}:${{ env.VERSION }}
+#  deploy:
+#    needs: build
+#    name: Deploy
+#    runs-on: [self-hosted, label-development]
+#    steps:
+#      - name: Login to ghcr
+#        uses: docker/login-action@v1
+#        with:
+#          registry: ghcr.io
+#          username: ${{ github.actor }}
+#          password: ${{ secrets.GIT_TOKEN }}
+#      - name: Docker run
+#        run: |
+#          docker ps -q --filter "name=tnswh2023/cavel" | grep -q . && docker stop tnswh2023/cavel && docker rm -fv tnswh2023/cavel
+#          docker run -d -p 8000:8080 --name cicd --restart always ${{ env.DOCKER_IMAGE }}:${{ env.VERSION }}
 
   deploy:
     needs: build
-    name: Deploy
-    runs-on: [self-hosted, label-development]
+    runs-on: label-development
     steps:
-      - name: Login to ghcr
-        uses: docker/login-action@v1
+      - name: Download deploy-docker.zip
+        uses: actions/download-artifact@v2
         with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GIT_TOKEN }}
-      - name: Docker run
+          name: deploy-docker.zip
+
+      - name: run server
         run: |
-          docker ps -q --filter "name=tnswh2023/cavel" | grep -q . && docker stop tnswh2023/cavel && docker rm -fv tnswh2023/cavel
-          docker run -d -p 8000:8080 --name cicd --restart always ${{ env.DOCKER_IMAGE }}:${{ env.VERSION }}
+          unzip -o ./deploy-docker.zip
+          cd deploy-docker/
+          sh ./deploy-docker.sh
 
