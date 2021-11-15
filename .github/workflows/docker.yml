@@ -54,6 +54,10 @@ jobs:
           registry: ghcr.io
           username: $USER_NAME
           password: ${{ secrets.GIT_TOKEN }}
+
+      - name: Check Username
+        env:
+          USER_NAME: ${{ github.repository_owner }}
         run: |
           - echo "$USER_NAME"
 
