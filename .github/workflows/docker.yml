@@ -48,18 +48,16 @@ jobs:
 
       - name: Login to ghcr
         uses: docker/login-action@v1
-        env:
-          USER_NAME: ${{ github.repository_owner }}
         with:
           registry: ghcr.io
-          username: $USER_NAME
+          username: ${{ github.repository_owner }}
           password: ${{ secrets.GIT_TOKEN }}
 
       - name: Check Username
         env:
           USER_NAME: ${{ github.repository_owner }}
         run: |
-          - echo "$USER_NAME"
+          echo "$USER_NAME"
 
       - name: velog_backend build
         env:
