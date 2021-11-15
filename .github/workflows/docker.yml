@@ -58,8 +58,8 @@ jobs:
           DOCKER_REPOSITORY: cavel-api
         run: |
           docker build -t $DOCKER_REGISTRY/$DOCKER_REPOSITORY .
-          docker tag $DOCKER_REGISTRY/$DOCKER_REPOSITORY:$IMAGE_TAG $DOCKER_REGISTRY/$DOCKER_REPOSITORY:latest
-          docker push $DOCKER_REGISTRY/$DOCKER_REPOSITORY:$IMAGE_TAG
+          docker tag $DOCKER_REGISTRY/$DOCKER_REPOSITORY $DOCKER_REGISTRY/$DOCKER_REPOSITORY:latest
+          docker push $DOCKER_REGISTRY/$DOCKER_REPOSITORY
           docker push $DOCKER_REGISTRY/$DOCKER_REPOSITORY:latest
           echo -e "$DOCKER_REGISTRY/$DOCKER_REPOSITORY:latest"
 
