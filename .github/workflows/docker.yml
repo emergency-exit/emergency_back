@@ -61,8 +61,8 @@ jobs:
 
       - name: velog_backend build
         env:
-          DOCKER_REGISTRY: ghcr.io/cavel
-          DOCKER_REPOSITORY: cavel-api
+          DOCKER_REGISTRY: ghcr.io/emergency-exit
+          DOCKER_REPOSITORY: emergency_back
         run: |
           docker build -t $DOCKER_REGISTRY/$DOCKER_REPOSITORY .
           docker tag $DOCKER_REGISTRY/$DOCKER_REPOSITORY $DOCKER_REGISTRY/$DOCKER_REPOSITORY:latest
