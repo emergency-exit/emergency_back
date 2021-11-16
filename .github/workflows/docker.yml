@@ -5,7 +5,7 @@ on:
     branches:
       - feat/docker
 env:
-  DOCKER_IMAGE: ghcr.io/tnswh2023/cavel
+  DOCKER_IMAGE: ghcr.io/emergency-exit/emergency_back
   VERSION: ${{ github.sha }}
 
 jobs:
