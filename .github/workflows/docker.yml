@@ -1,0 +1,88 @@
+name: velog docker cd
+
+on:
+  push:
+    branches:
+      - feat/docker
+env:
+  DOCKER_IMAGE: ghcr.io/emergency-exit/emergency_back
+  VERSION: ${{ github.sha }}
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Create auth.properties file
+        env:
+          KAKAO_AUTH_CLIENT_KEY: ${{ secrets.KAKAO_AUTH_CLIENT_KEY }}
+          KAKAO_AUTH_GRANT_TYPE: ${{ secrets.KAKAO_AUTH_GRANT_TYPE }}
+          KAKAO_AUTH_URL: ${{ secrets.KAKAO_AUTH_URL }}
+          KAKAO_AUTH_USER_INFO_URL: ${{ secrets.KAKAO_AUTH_USER_INFO_URL }}
+          RESOURCE_FILE: velog_backend/src/main/resources/auth.properties
+        run: |
+          touch $RESOURCE_FILE
+          echo "kakao.auth.client_key=$KAKAO_AUTH_CLIENT_KEY \
+             kakao.auth.grant_type=$KAKAO_AUTH_GRANT_TYPE \
+             kakao.auth.url=$KAKAO_AUTH_URL \
+             kakao.auth.user_info_url=$KAKAO_AUTH_USER_INFO_URL" >> $RESOURCE_FILE
+      - name: Create credentials.properties file
+        env:
+          CLOUD_AWS_CREDENTIALS_ACCESS_KEY: ${{ secrets.CLOUD_AWS_CREDENTIALS_ACCESS_KEY }}
+          CLOUD_AWS_CREDENTIALS_SECRET_KEY: ${{ secrets.CLOUD_AWS_CREDENTIALS_SECRET_KEY }}
+          RESOURCE_FILE: velog_backend/src/main/resources/credentials.properties
+        run: |
+          touch $RESOURCE_FILE
+          echo "cloud.aws.credentials.access_key=$CLOUD_AWS_CREDENTIALS_ACCESS_KEY \
+                cloud.aws.credentials.secret_key=$CLOUD_AWS_CREDENTIALS_SECRET_KEY" >> $RESOURCE_FILE
+
+      - name: Create jwt.properties file
+        env:
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          RESOURCE_FILE: velog_backend/src/main/resources/jwt.properties
+        run: |
+          touch $RESOURCE_FILE
+          echo "jwt.secret=$JWT_SECRET" >> $RESOURCE_FILE
+
+      - name: Set up docker buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v1
+      - name: Cache docker layers
+        uses: actions/cache@v2
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-buildx-${{ env.VERSION }}
+          restore-keys: |
+            ${{ runner.os }}-buildx-
+      - name: Login to ghcr
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: emergency_back
+          password: ${{ secrets.GIT_TOKEN }}
+      - name: Build and push
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          builder: ${{ steps.buildx.outputs.name }}
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ env.DOCKER_IMAGE }}:${{ env.VERSION }}
+
+#  deploy:
+#    needs: build
+#    name: Deploy
+#    runs-on: [self-hosted, label-development]
+#    steps:
+#      - name: Login to ghcr
+#        uses: docker/login-action@v1
+#        with:
+#          registry: ghcr.io
+#          username: ${{ github.actor }}
+#          password: ${{ secrets.GIT_TOKEN }}
+#      - name: Docker run
+#        run: |
+#          docker ps -q --filter "name=tnswh2023/cavel" | grep -q . && docker stop tnswh2023/cavel && docker rm -fv tnswh2023/cavel
+#          docker run -d -p 8000:8080 --name cicd --restart always ${{ env.DOCKER_IMAGE }}:${{ env.VERSION }}
+
