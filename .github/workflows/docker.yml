@@ -46,37 +46,6 @@ jobs:
           touch $RESOURCE_FILE
           echo "jwt.secret=$JWT_SECRET" >> $RESOURCE_FILE
 
-#      - name: Login to ghcr
-#        uses: docker/login-action@v1
-#        with:
-#          registry: ghcr.io
-#          username: emergency_back
-#          password: ${{ secrets.GIT_TOKEN }}
-#      - name: Check Username
-#        env:
-#          USER_NAME: ${{ github.repository_owner }}
-#        run: |
-#          echo "$USER_NAME"
-#
-#      - name: velog_backend build
-#        env:
-#          DOCKER_REGISTRY: ghcr.io/emergency-exit
-#          DOCKER_REPOSITORY: emergency_back
-#        run: |
-#          docker build -t $DOCKER_REGISTRY/$DOCKER_REPOSITORY .
-#          docker tag $DOCKER_REGISTRY/$DOCKER_REPOSITORY $DOCKER_REGISTRY/$DOCKER_REPOSITORY:latest
-#          docker push $DOCKER_REGISTRY/$DOCKER_REPOSITORY
-#          docker push $DOCKER_REGISTRY/$DOCKER_REPOSITORY:latest
-#          echo -e "VELOG_BACKEND=$DOCKER_REGISTRY/$DOCKER_REPOSITORY:latest" >> deploy-docker
-#
-#      - name: Zip deploy-docker.zip
-#        run: zip -r deploy-docker.zip deploy-docker
-#      - name: upload deploy-docker.zip
-#        uses: actions/upload-artifact@v2
-#        with:
-#          name: deploy-docker.zip
-#          path: deploy-docker.zip
-
       - name: Set up docker buildx
         id: buildx
         uses: docker/setup-buildx-action@v1
@@ -100,6 +69,7 @@ jobs:
           builder: ${{ steps.buildx.outputs.name }}
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ env.DOCKER_IMAGE }}:${{ env.VERSION }}
+
 #  deploy:
 #    needs: build
 #    name: Deploy
@@ -115,20 +85,4 @@ jobs:
 #        run: |
 #          docker ps -q --filter "name=tnswh2023/cavel" | grep -q . && docker stop tnswh2023/cavel && docker rm -fv tnswh2023/cavel
 #          docker run -d -p 8000:8080 --name cicd --restart always ${{ env.DOCKER_IMAGE }}:${{ env.VERSION }}
-#
-
-#  deploy:
-#    needs: build
-#    runs-on: label-development
-#    steps:
-#      - name: Download deploy-docker.zip
-#        uses: actions/download-artifact@v2
-#        with:
-#          name: deploy-docker.zip
-#
-#      - name: run server
-#        run: |
-#          unzip -o ./deploy-docker.zip
-#          cd deploy-docker/
-#          sh ./deploy-docker.sh
 
