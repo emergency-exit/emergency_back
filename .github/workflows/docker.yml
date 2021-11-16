@@ -68,14 +68,14 @@ jobs:
 #          docker push $DOCKER_REGISTRY/$DOCKER_REPOSITORY
 #          docker push $DOCKER_REGISTRY/$DOCKER_REPOSITORY:latest
 #          echo -e "VELOG_BACKEND=$DOCKER_REGISTRY/$DOCKER_REPOSITORY:latest" >> deploy-docker
-
-      - name: Zip deploy-docker.zip
-        run: zip -r deploy-docker.zip deploy-docker
-      - name: upload deploy-docker.zip
-        uses: actions/upload-artifact@v2
-        with:
-          name: deploy-docker.zip
-          path: deploy-docker.zip
+#
+#      - name: Zip deploy-docker.zip
+#        run: zip -r deploy-docker.zip deploy-docker
+#      - name: upload deploy-docker.zip
+#        uses: actions/upload-artifact@v2
+#        with:
+#          name: deploy-docker.zip
+#          path: deploy-docker.zip
 
       - name: Set up docker buildx
         id: buildx
