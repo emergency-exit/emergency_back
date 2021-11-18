@@ -1,3 +1,5 @@
 rootProject.name = 'potato-velog-sunjo'
 include 'velog_backend'
 include 'velog_domain'
+include 'velog_admin'
+

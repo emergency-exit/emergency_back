@@ -3,7 +3,7 @@ name: velog docker cd
 on:
   push:
     branches:
-      - feat/docker
+      - develop
 env:
   DOCKER_IMAGE: ghcr.io/emergency-exit/emergency_back
   VERSION: ${{ github.sha }}
