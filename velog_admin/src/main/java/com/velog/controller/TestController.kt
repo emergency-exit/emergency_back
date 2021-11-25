@@ -13,8 +13,7 @@ class TestController {
 
     @GetMapping("/ping")
     fun pong(): ApiResponse<String> {
-        return ApiResponse.success("pong");
+        return ApiResponse.success("pong")
     }
-
 
 }

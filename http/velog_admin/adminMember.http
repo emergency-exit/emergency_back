@@ -1,0 +1,16 @@
+POST {{host_api}}/api/v1/admin/member/signup
+Content-Type: application/json
+
+{
+  "email": "tnswh2023@naver.com2",
+  "password": "tnswh2023"
+}
+
+###
+POST {{host_api}}/api/v1/admin/member/login
+Content-Type: application/json
+
+{
+  "email": "tnswh2023@naver.com",
+  "password": "tnswh2023"
+}
