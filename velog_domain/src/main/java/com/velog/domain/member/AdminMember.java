@@ -22,9 +22,12 @@ public class AdminMember extends BaseTimeEntity {
 
     private String password;
 
-    public AdminMember(String email, String password) {
+    private String memberImage;
+
+    public AdminMember(String email, String password, String memberImage) {
         this.email = email;
         this.password = password;
+        this.memberImage = memberImage;
     }
 
 }

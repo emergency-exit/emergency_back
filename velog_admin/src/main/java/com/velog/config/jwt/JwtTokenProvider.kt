@@ -13,8 +13,9 @@ import java.util.*
 @Component
 class JwtTokenProvider {
 
+    val secretKey = "velog_admin"
+
     fun createToken(subject: String): String {
-        val secretKey = "velog_admin"
         val claims: Claims = Jwts.claims().setSubject(subject)
         val now = Date()
         val tokenValidTime = 1000L * 60 * 60
@@ -25,6 +26,10 @@ class JwtTokenProvider {
             .setExpiration(validity)
             .signWith(SignatureAlgorithm.HS256, secretKey)
             .compact()
+    }
+
+    fun getSubject(token: String?): String? {
+        return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject()
     }
 
 }

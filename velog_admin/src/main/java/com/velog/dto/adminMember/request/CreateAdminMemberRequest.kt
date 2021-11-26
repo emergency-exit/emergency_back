@@ -13,7 +13,7 @@ data class CreateAdminMemberRequest(
 ) {
 
     fun toEntity(encodedPassword: String): AdminMember {
-        return AdminMember(email, encodedPassword)
+        return AdminMember(email, encodedPassword, null)
     }
 
 }
