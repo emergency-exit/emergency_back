@@ -1,0 +1,25 @@
+POST {{host_api}}/api/v1/user/member/signup
+Content-Type: application/json
+
+{
+  "email": "tnswh2023@naver.com2",
+  "password": "tnswh2023"
+}
+
+###
+POST {{host_api}}/api/v1/user/member/login
+Content-Type: application/json
+
+{
+  "email": "tnswh2023@naver.com2",
+  "password": "tnswh2023"
+}
+> {%
+client.global.set('AUTH', response.body.data)
+client.log(client.global.get('AUTH'));
+ %}
+
+### getMyInfo
+GET {{host_api}}/api/v1/user/member
+Content-Type: application/json
+Authorization: {{AUTH}}
