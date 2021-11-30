@@ -53,5 +53,5 @@ jobs:
       - name: Docker run
         run: |
           docker ps -q --filter "name=tnswh2023/cavel" | grep -q . && docker stop tnswh2023/cavel && docker rm -fv tnswh2023/cavel
-          docker run -d -p 9000:9000 --name cicd --restart always ${{ env.DOCKER_IMAGE }}:${{ env.VERSION }}
+          docker run -d -p 9000:8080 --name cicd --restart always ${{ env.DOCKER_IMAGE }}:${{ env.VERSION }}
 
