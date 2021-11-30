@@ -1,0 +1,5 @@
+## 페이지네이션
+GET {{host_api}}/api/v1/board/list?page=0&size=5
+
+###
+GET {{host_api}}/api/v1/board/1

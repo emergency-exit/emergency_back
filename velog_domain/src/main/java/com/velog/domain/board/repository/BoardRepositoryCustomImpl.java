@@ -1,16 +1,26 @@
 package com.velog.domain.board.repository;
 
+import com.querydsl.core.QueryResults;
+import com.querydsl.core.types.Order;
+import com.querydsl.core.types.OrderSpecifier;
+import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.PathBuilder;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.velog.domain.board.Board;
 import com.velog.dto.board.response.BoardRetrieveResponse;
 import com.velog.enumData.BoardPeriod;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -83,6 +93,44 @@ public class BoardRepositoryCustomImpl implements BoardRepositoryCustom {
                 )
                 .fetchOne()
         );
+    }
+
+    @Override
+    public Page<Board> findBySearchingPagination(Pageable pageable, String search) {
+        QueryResults<Board> results = queryFactory.selectFrom(board)
+                .where(
+                        eqTitle(search),
+                        board.deleteDate.isNull()
+                )
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .orderBy(
+                        getOrderSpecifier(pageable.getSort()).toArray(OrderSpecifier[]::new)
+                )
+                .fetchResults();
+
+        List<Board> content = results.getResults();
+        long total = results.getTotal();
+        return new PageImpl<>(content, pageable, total);
+    }
+
+    private BooleanExpression eqTitle(String search) {
+        if (search == null) {
+            return null;
+        }
+        return board.title.contains(search);
+    }
+
+    private List<OrderSpecifier> getOrderSpecifier(Sort sort) {
+        List<OrderSpecifier> orders = new ArrayList<>();
+        // Sort
+        sort.stream().forEach(order -> {
+            Order direction = order.isAscending() ? Order.ASC : Order.DESC;
+            String prop = order.getProperty();
+            PathBuilder orderByExpression = new PathBuilder(Board.class, "board");
+            orders.add(new OrderSpecifier(direction, orderByExpression.get(prop)));
+        });
+        return orders;
     }
 
     private BooleanExpression paginationByLastBoardId(Long lastBoardId) {

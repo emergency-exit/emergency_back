@@ -21,4 +21,13 @@ public class AdminMemberRepositoryCustomImpl implements AdminMemberRepositoryCus
                 .fetchOne();
     }
 
+    @Override
+    public AdminMember findAdminById(long memberId) {
+        return queryFactory.selectFrom(adminMember)
+                .where(
+                        adminMember.id.eq(memberId)
+                )
+                .fetchOne();
+    }
+
 }

@@ -6,4 +6,6 @@ public interface AdminMemberRepositoryCustom {
 
     AdminMember findByEmail(String email);
 
+    AdminMember findAdminById(long memberId);
+
 }
